@@ -20,11 +20,12 @@
 > - Windows: anything that uses `ProcessPoolExecutor` must run as a script file, not via stdin. Runs take minutes, so launch them in the background.
 >
 > **Open work, in priority order (also tracked in `docs/paper_outline.md`):**
-> 1. **Bluffing artifact, partly fixed.**
->    - Done: strategic bluff target; a bluff happens only if it beats the honest option; table-adaptive challenge risk; stake bonus evolves.
->    - The gate still fails: bluffers can't invade Pushovers, because `_gain` ignores P(blocked) and sunk assassination costs.
->    - Next: discount steal/assassination gains by the public probability of a block (target or any eligible interventor). Re-run the gate (see the `docs/paper_outline.md` table and diagnostic).
->    - Only if it passes: rerun exp 2–4 (≈3 h). Keep the 0e270d5 results as the "random bluff target" ablation.
+> 1. **Exp 2–4 reruns with the corrected agent model** (strategic, block-aware bluffing; stake bonus evolves). The gate passed (see `docs/paper_outline.md`). They were launched sequentially on 2026-10-19 with ≈3 h total:
+>    - `02_invasion_bootstrap.py --games 20000`
+>    - `03_evolution.py --reps 20 --generations 400`
+>    - `04_egta.py --games 3000 --boot 200`
+>
+>    Logs are `results/exp{2,3,4}_run.log`. If a CSV is missing, rerun that script. Then run `experiments/summarise.py` and compare with `--ablation` (pre-fix model, `results/ablation_random_bluff/`). Record the findings in `docs/paper_outline.md`.
 > 2. Token economy: launch runs in the background, read only compact summaries (write a `summarise.py`, ≤30 lines per experiment), and never print raw logs or full payoff matrices.
 > 3. Moran/Fermi finite-population dynamics with a selection-strength sweep.
 > 4. Analytic sub-models (volunteer's dilemma, inspection game) as validation.
@@ -37,4 +38,4 @@
 > - Do not confuse this project with the user's SMR/EEG repos in `C:\work`.
 > - Before outward-facing actions (new repos, making anything public), confirm with the user.
 
-_Last updated: 2026-10-19, second gate failed (action valuation ignores blocks); long reruns not launched._
+_Last updated: 2026-10-19, gate passed; exp 2–4 reruns running._

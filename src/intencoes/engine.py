@@ -152,9 +152,13 @@ class Game:
         """Offer a challenge on `claimant`'s claim of `ch`. Returns True if the claim stands."""
         for j in self.clockwise_from(claimant):
             if self.agents[j].challenge(self.view(j), claimant, ch, action, actor, target):
+                cost = min(self.config.challenge_cost, self.players[j].coins)
+                if cost:
+                    self._pay_to_treasury(j, cost)
                 truthful = ch in self.players[claimant].hand
                 self.log.append({"turn": self.turn, "event": "challenge", "kind": kind, "challenger": j,
-                                 "claimant": claimant, "character": ch.value, "claim_true": truthful})
+                                 "claimant": claimant, "character": ch.value, "claim_true": truthful,
+                                 "cost": cost})
                 if truthful:
                     self._swap_proven(claimant, ch)
                     self.lose_influence(j, "wrong_challenge")

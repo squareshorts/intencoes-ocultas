@@ -144,3 +144,31 @@ def test_p_holds_zero_when_all_copies_seen():
     v = g.view(0)
     assert p_holds(v, 2, R) == 0.0
     assert 0 < p_holds(v, 2, C) < 1
+
+
+def test_challenge_cost_paid_by_challenger():
+    g = make_game([Scripted((ActionType.TAX, None)), Scripted(challenge=True), Scripted()],
+                  [(C, C), (S, G), (E, E)], challenge_cost=1)
+    g.play_turn()
+    assert g.players[1].coins == 1  # paid even though the challenge succeeded
+    g.check_invariants()
+
+
+def test_paired_bootstrap_detects_known_effect():
+    import numpy as np
+    from intencoes.stats import invasion_table
+    rng = np.random.default_rng(1)
+    base = rng.integers(0, 4, 5000)
+    better = np.where(rng.random(5000) < 0.1, 0, base)  # focal (seat 0) wins ~7.5 pp more
+    table, grad = invasion_table({(0.0, 0.0): base, (1.0, 0.0): better}, n_players=4, n_boot=500)
+    row = table[(table.mutant == 1.0)].iloc[0]
+    assert row.ci_low > 0 and grad["ci_low"] > 0
+    assert table[(table.mutant == 0.0)].rel_fitness.iloc[0] == 0
+
+
+def test_evolution_smoke():
+    from intencoes.evolution import EvoConfig, evolve
+    hist, beh = evolve(RuleConfig(), EvoConfig(pop=8, rounds=2, generations=3, record_every=1), seed=1)
+    assert "bluff_mean" in hist[0]
+    assert len(hist) == 3 and all(0 <= h["intervene_mean"] <= 1 for h in hist)
+    assert "faked_protection_share" in beh[0]

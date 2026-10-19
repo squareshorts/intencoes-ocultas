@@ -59,6 +59,7 @@ class RuleConfig:
     intervention_enabled: bool = True  # A8
     intervention_reward: int = 1  # A9
     swap_on_proven_claim: bool = True  # A2
+    challenge_cost: int = 0  # coins a challenger pays when challenging (H3); 0 = rulebook
     assassin_refund_on_failed_challenge: bool = False  # A4
     max_turns: int = 400  # A1: draw beyond this
 

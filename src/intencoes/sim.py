@@ -53,6 +53,18 @@ def _run_chunk(args):
     return rows
 
 
+def winners(params_by_seat, config: RuleConfig, seeds) -> np.ndarray:
+    """Single-process: winning seat per seed (-1 = draw). First player rotates with the seed."""
+    out = np.empty(len(seeds), dtype=np.int8)
+    n = config.n_players
+    for i, s in enumerate(seeds):
+        s = int(s)
+        agents = [HeuristicAgent(params_by_seat[k], seed=s * 31 + k) for k in range(n)]
+        w = Game(agents, config, seed=s, first_player=s % n).play()
+        out[i] = -1 if w is None else w
+    return out
+
+
 def run(params_by_seat, config: RuleConfig, n_games: int, seed0: int = 0, workers: int | None = None) -> pd.DataFrame:
     """Simulate n_games with fixed seat strategies; returns one row per game."""
     workers = workers or max(1, (os.cpu_count() or 2) - 1)

@@ -124,7 +124,8 @@ class HeuristicAgent(Agent):
         threshold = self.p.challenge_threshold
         if target == view.me or actor == view.me:
             threshold += self.p.stake_bonus
-        return p_holds(view, claimant, character) < threshold
+        p = p_holds(view, claimant, character)
+        return p == 0.0 or p < threshold  # a provably false claim is always challenged
 
     def block(self, view, action, actor, target, as_interventor):
         options = BLOCKERS[action]

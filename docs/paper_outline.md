@@ -113,6 +113,29 @@ No existing model combines all three. Theory of third parties is dominated by *p
 - **Remaining artifact:** `_gain` values an assassination at 7 − 3 = 4 and a steal at its face amount, ignoring P(blocked). Intervention makes blocks *more* likely. This also affects honest play.
 - **Proposed fix:** discount steal/assassination gains by the public probability that the target or any eligible interventor holds a blocker. Then re-gate.
 
+**Gate, third attempt — passed (2026-10-19).**
+- Change: steal/assassination gains are discounted by P(blocked), computed by card counting over the target and every eligible interventor.
+- Result:
+  - bluffers invade non-sceptics: 1.31–1.52× fair share, all CIs exclude 1;
+  - sceptics resist them: 0.80–0.84.
+
+**Exp 2–4 rerun with the corrected agents** (`experiments/summarise.py`; pre-fix results in `results/ablation_random_bluff/`):
+- **Exp 2** (20,000 paired games per cell):
+  - bluff gradient −0.25 to −0.27; θ gradient −0.88 to −1.05;
+  - intervene and intervene_bluff gradients ≈ 0;
+  - **identical across rewards**, i.e. the reward has no effect.
+- **Exp 3** (20 reps × 400 generations):
+  - bluff ≈ 0.26, θ ≈ 0.12, stake bonus ≈ 0.06;
+  - intervention traits drift (≈ 0.5 ± 0.3);
+  - 0.01 interventions per game.
+- **Exp 4:** α-Rank mass moves to Bluffer / BlufferFakeProtector for every n (they are tied because protection never happens). Wide bootstrap CIs.
+- ⚠ **Why intervention vanished — miscalibrated deterrence** (n = 4 diagnostic, 2,000 games):
+  - attacks drop from 4.4/game (pre-fix) to 0.53 (intervention on) vs 1.18 (off), so Intervenção halves attacks;
+  - but only 8% of the remaining attacks are actually blocked;
+  - agents' P(blocked) assumes every eligible holder always intervenes.
+  - **Proposed fix:** scale the interventor term by the table's observed intervention rate per opportunity (Laplace estimate from public counts, mirroring the challenge-rate fix). Then re-gate and rerun.
+  - The deterrence effect itself is a candidate result, but only once beliefs are calibrated.
+
 ## Status
 - [x] Engine, agents, tests (`src/`, `tests/`)
 - [x] Pilot experiment 1 (`results/exp1_*.csv`). Superseded by exp 2 for inference.
@@ -124,7 +147,8 @@ No existing model combines all three. Theory of third parties is dominated by *p
 - [x] EGTA + α-Rank pipeline, n = 3, 4, 5 (exp 4) — pre-fix, see artifact note
 - [x] Strategic bluff target + random-mode ablation; stake bonus evolves
 - [x] Bluff only when it beats the honest option; table-adaptive challenge risk
-- [ ] Discount steal/assassination gain by P(blocked) (gate still fails without it); re-gate, then rerun exp 2–4
+- [x] Block-aware valuation; gate passed; exp 2–4 rerun (pre-fix archived as ablation)
+- [ ] Calibrate P(blocked) with the observed intervention rate; re-gate; rerun exp 2–4
 - [ ] Moran/Fermi dynamics with a selection-strength sweep
 - [ ] Analytic sub-models (volunteer's dilemma, inspection game)
 - [ ] Confirm ⚠ rule assumptions with the author

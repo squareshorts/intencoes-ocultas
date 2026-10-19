@@ -1,0 +1,49 @@
+36/864 cells, 73s
+72/864 cells, 137s
+108/864 cells, 178s
+144/864 cells, 239s
+180/864 cells, 299s
+216/864 cells, 340s
+252/864 cells, 397s
+288/864 cells, 449s
+324/864 cells, 489s
+360/864 cells, 544s
+396/864 cells, 583s
+432/864 cells, 639s
+468/864 cells, 684s
+504/864 cells, 736s
+540/864 cells, 789s
+576/864 cells, 837s
+612/864 cells, 892s
+648/864 cells, 930s
+684/864 cells, 971s
+720/864 cells, 1013s
+756/864 cells, 1056s
+792/864 cells, 1101s
+828/864 cells, 1144s
+864/864 cells, 1182s
+{'trait': 'bluff', 'reward': 0, 'challenge_cost': 0} {'gradient': np.float64(-0.2688), 'ci_low': -0.2844, 'ci_high': -0.2534, 'seeds': 20000}
+{'trait': 'bluff', 'reward': 0, 'challenge_cost': 1} {'gradient': np.float64(-0.2471), 'ci_low': -0.2625, 'ci_high': -0.2308, 'seeds': 20000}
+{'trait': 'bluff', 'reward': 1, 'challenge_cost': 0} {'gradient': np.float64(-0.2687), 'ci_low': -0.2843, 'ci_high': -0.2533, 'seeds': 20000}
+{'trait': 'bluff', 'reward': 1, 'challenge_cost': 1} {'gradient': np.float64(-0.2469), 'ci_low': -0.2624, 'ci_high': -0.2306, 'seeds': 20000}
+{'trait': 'bluff', 'reward': 2, 'challenge_cost': 0} {'gradient': np.float64(-0.2686), 'ci_low': -0.2843, 'ci_high': -0.2532, 'seeds': 20000}
+{'trait': 'bluff', 'reward': 2, 'challenge_cost': 1} {'gradient': np.float64(-0.2469), 'ci_low': -0.2624, 'ci_high': -0.2308, 'seeds': 20000}
+{'trait': 'intervene', 'reward': 0, 'challenge_cost': 0} {'gradient': np.float64(0.0), 'ci_low': 0.0, 'ci_high': 0.0, 'seeds': 20000}
+{'trait': 'intervene', 'reward': 0, 'challenge_cost': 1} {'gradient': np.float64(0.0002), 'ci_low': 0.0, 'ci_high': 0.0007, 'seeds': 20000}
+{'trait': 'intervene', 'reward': 1, 'challenge_cost': 0} {'gradient': np.float64(0.0), 'ci_low': 0.0, 'ci_high': 0.0, 'seeds': 20000}
+{'trait': 'intervene', 'reward': 1, 'challenge_cost': 1} {'gradient': np.float64(0.0), 'ci_low': 0.0, 'ci_high': 0.0, 'seeds': 20000}
+{'trait': 'intervene', 'reward': 2, 'challenge_cost': 0} {'gradient': np.float64(0.0003), 'ci_low': 0.0, 'ci_high': 0.0008, 'seeds': 20000}
+{'trait': 'intervene', 'reward': 2, 'challenge_cost': 1} {'gradient': np.float64(0.0), 'ci_low': 0.0, 'ci_high': 0.0, 'seeds': 20000}
+{'trait': 'intervene_bluff', 'reward': 0, 'challenge_cost': 0} {'gradient': np.float64(-0.0011), 'ci_low': -0.0021, 'ci_high': -0.0003, 'seeds': 20000}
+{'trait': 'intervene_bluff', 'reward': 0, 'challenge_cost': 1} {'gradient': np.float64(-0.0007), 'ci_low': -0.0016, 'ci_high': -0.0001, 'seeds': 20000}
+{'trait': 'intervene_bluff', 'reward': 1, 'challenge_cost': 0} {'gradient': np.float64(-0.0011), 'ci_low': -0.0021, 'ci_high': -0.0003, 'seeds': 20000}
+{'trait': 'intervene_bluff', 'reward': 1, 'challenge_cost': 1} {'gradient': np.float64(-0.0007), 'ci_low': -0.0016, 'ci_high': -0.0001, 'seeds': 20000}
+{'trait': 'intervene_bluff', 'reward': 2, 'challenge_cost': 0} {'gradient': np.float64(-0.0011), 'ci_low': -0.0021, 'ci_high': -0.0003, 'seeds': 20000}
+{'trait': 'intervene_bluff', 'reward': 2, 'challenge_cost': 1} {'gradient': np.float64(-0.0007), 'ci_low': -0.0016, 'ci_high': -0.0001, 'seeds': 20000}
+{'trait': 'challenge_threshold', 'reward': 0, 'challenge_cost': 0} {'gradient': np.float64(-0.8814), 'ci_low': -0.9188, 'ci_high': -0.8476, 'seeds': 20000}
+{'trait': 'challenge_threshold', 'reward': 0, 'challenge_cost': 1} {'gradient': np.float64(-1.0465), 'ci_low': -1.0811, 'ci_high': -1.0126, 'seeds': 20000}
+{'trait': 'challenge_threshold', 'reward': 1, 'challenge_cost': 0} {'gradient': np.float64(-0.8815), 'ci_low': -0.919, 'ci_high': -0.8478, 'seeds': 20000}
+{'trait': 'challenge_threshold', 'reward': 1, 'challenge_cost': 1} {'gradient': np.float64(-1.0466), 'ci_low': -1.0812, 'ci_high': -1.0127, 'seeds': 20000}
+{'trait': 'challenge_threshold', 'reward': 2, 'challenge_cost': 0} {'gradient': np.float64(-0.8815), 'ci_low': -0.919, 'ci_high': -0.8479, 'seeds': 20000}
+{'trait': 'challenge_threshold', 'reward': 2, 'challenge_cost': 1} {'gradient': np.float64(-1.0468), 'ci_low': -1.0815, 'ci_high': -1.0126, 'seeds': 20000}
+done in 1318s

@@ -1,0 +1,42 @@
+500/11682 profiles, 87s
+1000/11682 profiles, 178s
+1500/11682 profiles, 298s
+2000/11682 profiles, 540s
+2500/11682 profiles, 757s
+3000/11682 profiles, 973s
+3500/11682 profiles, 1205s
+4000/11682 profiles, 1388s
+4500/11682 profiles, 1597s
+5000/11682 profiles, 1793s
+5500/11682 profiles, 2019s
+6000/11682 profiles, 2233s
+6500/11682 profiles, 2443s
+7000/11682 profiles, 2667s
+7500/11682 profiles, 2876s
+8000/11682 profiles, 3098s
+8500/11682 profiles, 3319s
+9000/11682 profiles, 3511s
+9500/11682 profiles, 3727s
+10000/11682 profiles, 3934s
+10500/11682 profiles, 4149s
+11000/11682 profiles, 4364s
+11500/11682 profiles, 4546s
+{'n_players': 3, 'reward': 0, 'challenge_cost': 0} alpha=100 top: BlufferFakeProtector 0.55
+{'n_players': 3, 'reward': 0, 'challenge_cost': 1} alpha=100 top: Bluffer 0.601
+{'n_players': 3, 'reward': 1, 'challenge_cost': 0} alpha=100 top: Bluffer 0.465
+{'n_players': 3, 'reward': 1, 'challenge_cost': 1} alpha=100 top: BlufferFakeProtector 0.786
+{'n_players': 3, 'reward': 2, 'challenge_cost': 0} alpha=100 top: Bluffer 0.345
+{'n_players': 3, 'reward': 2, 'challenge_cost': 1} alpha=100 top: BlufferFakeProtector 0.998
+{'n_players': 4, 'reward': 0, 'challenge_cost': 0} alpha=100 top: Bluffer 1.0
+{'n_players': 4, 'reward': 0, 'challenge_cost': 1} alpha=100 top: Bluffer 1.0
+{'n_players': 4, 'reward': 1, 'challenge_cost': 0} alpha=100 top: BlufferFakeProtector 1.0
+{'n_players': 4, 'reward': 1, 'challenge_cost': 1} alpha=100 top: Bluffer 1.0
+{'n_players': 4, 'reward': 2, 'challenge_cost': 0} alpha=100 top: BlufferFakeProtector 1.0
+{'n_players': 4, 'reward': 2, 'challenge_cost': 1} alpha=100 top: Bluffer 0.985
+{'n_players': 5, 'reward': 0, 'challenge_cost': 0} alpha=100 top: BlufferFakeProtector 1.0
+{'n_players': 5, 'reward': 0, 'challenge_cost': 1} alpha=100 top: Bluffer 1.0
+{'n_players': 5, 'reward': 1, 'challenge_cost': 0} alpha=100 top: BlufferFakeProtector 1.0
+{'n_players': 5, 'reward': 1, 'challenge_cost': 1} alpha=100 top: BlufferFakeProtector 1.0
+{'n_players': 5, 'reward': 2, 'challenge_cost': 0} alpha=100 top: BlufferFakeProtector 1.0
+{'n_players': 5, 'reward': 2, 'challenge_cost': 1} alpha=100 top: Bluffer 1.0
+done in 4641s

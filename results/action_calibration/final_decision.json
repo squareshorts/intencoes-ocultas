@@ -1,0 +1,9 @@
+{
+  "version": 3,
+  "frozen_sha256": "d0063222b3b196dba254f9a575c5a95310a864c4a9a71c429ec0c4859d87da96",
+  "gate": "FAIL",
+  "passed": 11,
+  "total": 12,
+  "criteria": "12 in-policy action strata, n>=150, abs gap<=0.07, Brier delta vs opponent<=0.01",
+  "interpretation": "Even PASS would only validate simulation calibration, not evolutionary hypotheses or real people."
+}

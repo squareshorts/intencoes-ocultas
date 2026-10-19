@@ -1,0 +1,13 @@
+FINAL 3 mixed steal n 699 new gap 0.007 old gap 0.087 Brier delta -0.0074 gate PASS
+FINAL 3 mixed assassinate n 322 new gap 0.006 old gap -0.04 Brier delta -0.0037 gate PASS
+FINAL 3 shifted steal n 500 new gap -0.066 old gap 0.009 Brier delta 0.0043 gate PASS
+FINAL 3 shifted assassinate n 395 new gap -0.095 old gap -0.144 Brier delta -0.0155 gate FAIL
+FINAL 4 mixed steal n 861 new gap 0.055 old gap 0.09 Brier delta -0.0046 gate PASS
+FINAL 4 mixed assassinate n 374 new gap 0.018 old gap -0.065 Brier delta -0.0037 gate PASS
+FINAL 4 shifted steal n 957 new gap -0.041 old gap -0.021 Brier delta 0.0013 gate PASS
+FINAL 4 shifted assassinate n 406 new gap -0.038 old gap -0.127 Brier delta -0.0156 gate PASS
+FINAL 5 mixed steal n 1174 new gap 0.04 old gap 0.042 Brier delta -0.0026 gate PASS
+FINAL 5 mixed assassinate n 596 new gap 0.03 old gap -0.033 Brier delta 0.0006 gate PASS
+FINAL 5 shifted steal n 1136 new gap -0.055 old gap -0.064 Brier delta 0.0006 gate PASS
+FINAL 5 shifted assassinate n 579 new gap -0.022 old gap -0.105 Brier delta -0.0186 gate PASS
+FINAL HELDOUT DECISION {'version': 3, 'frozen_sha256': 'd0063222b3b196dba254f9a575c5a95310a864c4a9a71c429ec0c4859d87da96', 'gate': 'FAIL', 'passed': 11, 'total': 12, 'criteria': '12 in-policy action strata, n>=150, abs gap<=0.07, Brier delta vs opponent<=0.01', 'interpretation': 'Even PASS would only validate simulation calibration, not evolutionary hypotheses or real people.'}

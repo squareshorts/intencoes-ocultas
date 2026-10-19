@@ -56,6 +56,7 @@ def evolve(rules: RuleConfig, evo: EvoConfig, seed: int, init: str = "uniform"):
     for gen in range(evo.generations):
         wins = np.zeros(evo.pop)
         stats = {"games": 0, "interventions": 0, "intervention_bluffs": 0, "interventions_stood": 0,
+                 "intervention_offers": 0, "target_block_offers": 0,
                  "challenges": 0, "challenges_correct": 0, "turns": 0}
         record = gen % evo.record_every == 0 or gen == evo.generations - 1
         for _ in range(evo.rounds):
@@ -87,6 +88,9 @@ def evolve(rules: RuleConfig, evo: EvoConfig, seed: int, init: str = "uniform"):
                 "interventions_per_game": stats["interventions"] / g_,
                 "faked_protection_share": stats["intervention_bluffs"] / max(1, stats["interventions"]),
                 "protection_success": stats["interventions_stood"] / max(1, stats["interventions"]),
+                "intervention_offers_per_game": stats["intervention_offers"] / g_,
+                "interventions_per_offer": stats["interventions"] / max(1, stats["intervention_offers"]),
+                "target_block_offers_per_game": stats["target_block_offers"] / g_,
                 "challenges_per_game": stats["challenges"] / g_,
                 "challenge_accuracy": stats["challenges_correct"] / max(1, stats["challenges"]),
                 "turns_mean": stats["turns"] / g_,

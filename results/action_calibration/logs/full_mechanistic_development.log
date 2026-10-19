@@ -1,0 +1,11 @@
+TRAIN mixed games 1600 stages 1581
+TRAIN shifted games 1600 stages 1715
+FROZEN offsets (0.5116337206260659, -0.12832393013150292, 0.3620706104613306, 0.43744151254018854) sha256 9034e28ed1e7a9116e337c1136cd73bff58db5bc71ea9d92f76bcab7f409177a
+DEVELOPMENT SCREEN mixed opponent steal n 236 gap 0.031 Brier 0.217
+DEVELOPMENT SCREEN mixed opponent assassinate n 228 gap 0.055 Brier 0.163
+DEVELOPMENT SCREEN mixed opponent_action steal n 561 gap -0.046 Brier 0.216
+DEVELOPMENT SCREEN mixed opponent_action assassinate n 239 gap -0.151 Brier 0.233
+DEVELOPMENT SCREEN shifted opponent steal n 213 gap -0.037 Brier 0.222
+DEVELOPMENT SCREEN shifted opponent assassinate n 273 gap -0.083 Brier 0.237
+DEVELOPMENT SCREEN shifted opponent_action steal n 315 gap -0.117 Brier 0.22
+DEVELOPMENT SCREEN shifted opponent_action assassinate n 209 gap -0.14 Brier 0.222

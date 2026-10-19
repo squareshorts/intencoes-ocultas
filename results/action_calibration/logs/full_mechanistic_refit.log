@@ -1,0 +1,11 @@
+REFIT TRAIN mixed games 1600 stages 2518
+REFIT TRAIN shifted games 1600 stages 1864
+REFIT preliminary (0.27905743747887496, 0.2233237276359636, 0.5656124904339659, 1.5320244674866903)
+REFIT SCREEN mixed opponent steal n 253 new gap 0.049 old gap 0.042 Brier delta 0.0099
+REFIT SCREEN mixed opponent assassinate n 289 new gap 0.156 old gap -0.039 Brier delta 0.0382
+REFIT SCREEN mixed opponent_action steal n 491 new gap 0.004 old gap 0.069 Brier delta 0.0037
+REFIT SCREEN mixed opponent_action assassinate n 151 new gap 0.037 old gap -0.028 Brier delta 0.0269
+REFIT SCREEN shifted opponent steal n 487 new gap 0.046 old gap 0.019 Brier delta -0.0003
+REFIT SCREEN shifted opponent assassinate n 353 new gap 0.106 old gap -0.113 Brier delta -0.0033
+REFIT SCREEN shifted opponent_action steal n 325 new gap -0.039 old gap -0.02 Brier delta 0.0027
+REFIT SCREEN shifted opponent_action assassinate n 125 new gap 0.124 old gap -0.017 Brier delta 0.0431

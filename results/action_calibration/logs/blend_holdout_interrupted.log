@@ -1,0 +1,14 @@
+TEST 3 mixed opponent steal n 313 gap 0.067 old_gap 0.106 brier_delta -0.0084
+TEST 3 mixed opponent assassinate n 383 gap 0.067 old_gap -0.017 brier_delta 0.0049
+TEST 3 mixed opponent_action steal n 576 gap 0.061 old_gap 0.109 brier_delta -0.0088
+TEST 3 mixed opponent_action assassinate n 265 gap 0.075 old_gap -0.004 brier_delta 0.0068
+TEST 3 shifted opponent steal n 239 gap 0.001 old_gap 0.036 brier_delta -0.0041
+TEST 3 shifted opponent assassinate n 481 gap -0.002 old_gap -0.09 brier_delta -0.0078
+TEST 3 shifted opponent_action steal n 415 gap -0.053 old_gap -0.006 brier_delta 0.0032
+TEST 3 shifted opponent_action assassinate n 303 gap -0.021 old_gap -0.102 brier_delta -0.0091
+TEST 4 mixed opponent steal n 770 gap 0.026 old_gap 0.069 brier_delta -0.0062
+TEST 4 mixed opponent assassinate n 649 gap 0.048 old_gap -0.028 brier_delta 0.0033
+TEST 4 mixed opponent_action steal n 1255 gap 0.01 old_gap 0.068 brier_delta -0.0046
+TEST 4 mixed opponent_action assassinate n 443 gap 0.002 old_gap -0.065 brier_delta -0.0051
+TEST 4 shifted opponent steal n 869 gap -0.03 old_gap -0.005 brier_delta -0.0009
+TEST 4 shifted opponent assassinate n 821 gap -0.022 old_gap -0.107 brier_delta -0.0109

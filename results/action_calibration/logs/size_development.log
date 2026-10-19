@@ -1,0 +1,19 @@
+TRAIN 3 mixed games 1100 stages 649
+TRAIN 3 shifted games 1100 stages 610
+TRAIN 4 mixed games 1100 stages 1145
+TRAIN 4 shifted games 1100 stages 1088
+TRAIN 5 mixed games 1100 stages 1713
+TRAIN 5 shifted games 1100 stages 1781
+FROZEN SIZE ADJUSTMENTS (-0.1427794426223318, -0.1791009955984656, 0.11561050219315072, 0.10399554539472847, 0.23219581057489233, 0.07880846100087327) SHA256 d0063222b3b196dba254f9a575c5a95310a864c4a9a71c429ec0c4859d87da96
+SCREEN 3 mixed steal stages 254 gap -0.003 brier_delta -0.0063
+SCREEN 3 mixed assassinate stages 104 gap -0.039 brier_delta -0.0063
+SCREEN 3 shifted steal stages 192 gap -0.014 brier_delta -0.0019
+SCREEN 3 shifted assassinate stages 143 gap -0.002 brier_delta -0.0058
+SCREEN 4 mixed steal stages 328 gap 0.062 brier_delta -0.008
+SCREEN 4 mixed assassinate stages 140 gap 0.074 brier_delta 0.0081
+SCREEN 4 shifted steal stages 313 gap -0.063 brier_delta 0.0047
+SCREEN 4 shifted assassinate stages 198 gap -0.018 brier_delta -0.0112
+SCREEN 5 mixed steal stages 419 gap 0.095 brier_delta -0.0013
+SCREEN 5 mixed assassinate stages 221 gap 0.03 brier_delta -0.0001
+SCREEN 5 shifted steal stages 383 gap -0.054 brier_delta 0.0001
+SCREEN 5 shifted assassinate stages 209 gap -0.009 brier_delta -0.0123

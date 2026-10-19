@@ -136,6 +136,26 @@ No existing model combines all three. Theory of third parties is dominated by *p
   - **Proposed fix:** scale the interventor term by the table's observed intervention rate per opportunity (Laplace estimate from public counts, mirroring the challenge-rate fix). Then re-gate and rerun.
   - The deterrence effect itself is a candidate result, but only once beliefs are calibrated.
 
+## Follow-up calibration audit (2026-10-19)
+
+The diagnostic continuation is documented in
+`docs/calibration_2026_10_19.md`. New public block-offer counters prevent
+conflating card holding with successful defence. A revised estimate accounts
+for a false blocker being exposed by the attacker. In 1,500 four-player
+voluntary games with intervention, empirical estimates yielded 1.501 attacks
+and 0.056 third-party claims per game. Conditional block-stage forecasts
+were 0.371 against 0.361 observed (1,438 evaluated stages). This is only
+within-scenario evidence; ex-ante forecasts and heterogeneous-table beliefs
+are not yet validated. In held-out heterogeneous 3/4/5-player tests, the model
+underestimated standing blocks by 0.112, 0.095 and 0.101, respectively;
+prior-strength sensitivity did not eliminate this error. In forced
+credible-attack probes (1,100 per cell),
+intervention claims vary monotonically with conditional intervention propensity.
+The existing compound Bluffer archetype beats HonestSceptic, so the old gate
+fails as an archetype contrast; in an action-bluff-only contrast, a theta=0
+resident is invadable, while theta=0.3 is inconclusive. Full Experiments 2--4
+must NOT be replaced until the held-out gate is passed.
+
 ## Status
 - [x] Engine, agents, tests (`src/`, `tests/`)
 - [x] Pilot experiment 1 (`results/exp1_*.csv`). Superseded by exp 2 for inference.
@@ -148,7 +168,84 @@ No existing model combines all three. Theory of third parties is dominated by *p
 - [x] Strategic bluff target + random-mode ablation; stake bonus evolves
 - [x] Bluff only when it beats the honest option; table-adaptive challenge risk
 - [x] Block-aware valuation; gate passed; exp 2–4 rerun (pre-fix archived as ablation)
-- [ ] Calibrate P(blocked) with the observed intervention rate; re-gate; rerun exp 2–4
+- [ ] Complete held-out P(blocked) calibration and trait-isolated gates; only then rerun exp 2–4
 - [ ] Moran/Fermi dynamics with a selection-strength sweep
 - [ ] Analytic sub-models (volunteer's dilemma, inspection game)
 - [ ] Confirm ⚠ rule assumptions with the author
+
+## Opponent-conditioned forecasting and trait-isolated protection (2026-10-19)
+
+Full audit, sampling plan, seed ranges and uncertainty in
+`docs/opponent_beliefs_2026_10_19.md`; reproducibility in
+`experiments/08_opponent_beliefs.py` and `09_protection_bluff.py`.
+
+- Added seat-indexed, public `(offers, claims, stands)` observations to `View`
+  and an independent opponent-policy prior. The forecast handles a challenged
+  false blocker halting later defence offers. There is **no hidden hand or
+  opponent strategy-parameter access** in the acting agent.
+- On separate held-out event snapshots, n=4 mixed-strategy Brier score was
+  0.197 (earlier empirical), 0.196 (new prior only), 0.168 (pooled history),
+  **0.163** (seat-specific history). 95% game-bootstrap CI for seat-specific
+  improvement over pooling: -0.0099 to -0.0007. The oracle's 0.160 is a
+  research-only policy-information comparator, not a mathematical bound.
+- In all nine held-out populations (850 games each, n=3/4/5 and three
+  mixtures), eight Brier scores improved relative to empirical. Seven paired
+  CIs excluded zero. Five-player homogeneous was slightly worse and
+  inconclusive. Pooled public observations account for most of the gain.
+- **The in-policy opportunity problem remains:** in 450-game n=4 mixed-policy
+  simulations, the new prior reduced attacks from 1.60 to 1.05 and third-party
+  claims from 0.22 to 0.089 per game. Predictions and realized stage outcomes
+  are conditional on different policy-selected events in these two arms.
+- **Isolated bluff contrast:** raising the propensity for false target blocks
+  from 0.05 to 0.80 reduced focal win probability by 0.108 at resident
+  challenge threshold theta=0.30 and by 0.144 at theta=0.60, with CIs
+  excluding zero (1,600 paired games per arm). False third-party protection
+  effects were ~0.004--0.008 lower win probability, but opportunities
+  were rare (~0.05--0.09 per focal game). These are exploratory, not complete
+  evolutionary selection gradients.
+- The `opponent` model remains an **explicit option**, not the default; the
+  completed Exp 2--4 CSVs are preserved unchanged. Conditional mixed-policy
+  forecast gate partially passed, but the in-policy calibration/exposure
+  gate still fails; **NO-GO for replacing main results**.
+
+Additional status:
+- [x] Public seat-indexed opponent-response history and ordered block forecast.
+- [x] Matched-event, seed-separated mixed-population calibration (3/4/5 players).
+- [x] Pool-only vs individual-opponent ablation and research-only policy oracle.
+- [x] Trait-isolated target/block and third-party false-protection screen.
+- [ ] Demonstrate in-policy calibration and sufficient intervention opportunity
+  across heterogeneous mixtures and intervention-reward settings before redoing
+  full Experiments 2--4.
+
+
+## Endogenous opportunity, deterrence, and action-specific forecast gate (2026-10-19)
+
+See `docs/endogenous_opportunities_2026_10_19.md` and reproducible
+`experiments/10_endogenous_opportunity.py`–`12_size_holdout.py`. This extension
+keeps previous empirical and evolutionary CSVs untouched.
+
+- [x] Randomized first-turn opportunity encouragement with explicit
+  assignment/eligibility/uptake, attack stage and third-party offer denominators.
+- [x] Anticipation-only ablation: in mixed n=4 `opponent` games attacks rose
+  1.056 → 2.054 and standing third-party interventions 0.074 → 0.248/game
+  when actors stopped anticipating intervention, actual blocking still active.
+- [x] Proper matched-event scoring and game-seed clustered uncertainty on
+  29,500 full four-player games, 14,400 additional 3/5-player games and
+  7,200 standardized one-turn reward probes.
+- [x] Reward-response limitation: immediate intervention Bernoulli policy
+  cannot respond to the reward, which affects only future coins/evolution.
+- [ ] Action-specific calibration repair before main reruns. Mixed n=4
+  natural-play mean block-stage bias +0.008 hides steals +0.095 and Sombra
+  -0.088; shifted Sombra error -0.134 (CIs exclude zero). Independent
+  shifted n=5 aggregate bias -0.094; broad generalization not established.
+- [ ] Once action-specific in-policy performance passes independent
+  mixed/shifted 3/4/5-player checks, rerun the expensive Exp 2–4 pipeline.
+- [ ] In parallel, draft the mechanism paper and develop a small analytic
+  volunteer/inspection model; do not imply simulations prove human behaviour.
+
+
+## Action-specific public-belief validation (2026-10-19; exploratory, not new Exp 2–4)
+
+The prior opponent-aware forecast had opposite-signed errors for steals and Sombra attacks. `docs/action_specific_calibration_2026_10_19.md` now records a full, independent two-stage calibration sequence. A hypergeometric false-block challenge model, combined with a conservative structural blend and public action/target/table-size offsets, improved conditional prediction on identical pre-block events. The first frozen predictor passed 9/12 prespecified action strata on 16,800 independent games. A second predictor was retrained using new 3/4/5-player development seeds and evaluated on 7,800 *untouched* full games; **11/12 conditions passed**. Remaining shifted three-player Sombra bias was −9.5 percentage points, 95% game-clustered CI [−14.2, −5.2]. Pooled final Brier score was 0.1832 versus 0.1874 for the previous opponent estimator, measured on 7,999 stage observations under the final predictor's own policy. Pooled proper-score gains do not imply action-level calibration.
+
+**Interpretation:** The within-simulator deterrence and opportunity-manipulation mechanisms have support from earlier randomized and anticipation-ablation experiments, but evolutionary selection conclusions remain contingent on unverified behavioural beliefs. Do not repeat Exp 2–4 wholesale as replacements or claim an action-calibration PASS; instead predeclare a small sensitivity design across fixed forecast families, then proceed to analytical reductions, ODD protocol, and discussion of external validity. Do not continue adaptive tuning against completed validation datasets.

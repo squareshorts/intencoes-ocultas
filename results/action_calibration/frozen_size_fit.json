@@ -1,0 +1,46 @@
+{
+  "status": "size_development_frozen",
+  "fit_version": 3,
+  "parent_frozen_sha256": "30c3397597c479b31dff720187991350458aa58426c3757befda709a1cb9f483",
+  "action_block_offsets": [
+    0.30770885303219203,
+    -0.20831734467032362,
+    0.3492019815174937,
+    0.5657014909624479
+  ],
+  "size_block_offsets": [
+    -0.1427794426223318,
+    -0.1791009955984656,
+    0.11561050219315072,
+    0.10399554539472847,
+    0.23219581057489233,
+    0.07880846100087327
+  ],
+  "size_groups": [
+    "3p_steal",
+    "3p_assassinate",
+    "4p_steal",
+    "4p_assassinate",
+    "5p_steal",
+    "5p_assassinate"
+  ],
+  "training_stage_counts": [
+    773,
+    486,
+    1550,
+    683,
+    2508,
+    986
+  ],
+  "ridge_size": 20.0,
+  "training_games_per_population_size": 1100,
+  "dev_screen_games_per_population_size": 500,
+  "training_base": 4100000,
+  "screen_base": 4900000,
+  "untouched_final_base": 6000000,
+  "fit_population": "mixed+shifted, 3/4/5 player tables",
+  "mechanistic_challenge_weight": 0.25,
+  "provenance": "prospective new development and final holdout after failed 9/12 size-transfer test",
+  "conformance": "No hidden defender cards or policy identities available to acting agent",
+  "sha256": "d0063222b3b196dba254f9a575c5a95310a864c4a9a71c429ec0c4859d87da96"
+}

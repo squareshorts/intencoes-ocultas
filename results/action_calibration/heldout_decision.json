@@ -1,0 +1,11 @@
+{
+  "frozen_fit_sha256": "30c3397597c479b31dff720187991350458aa58426c3757befda709a1cb9f483",
+  "stage_count": 17807,
+  "games_per_condition": 1400,
+  "gate": "FAIL",
+  "criteria": "12 independent in-policy action strata (3/4/5 x mixed/shifted x steal/assassinate): n>=150, abs(mean forecast error)<=0.07, Brier delta vs opponent on same events<=0.01",
+  "passed_strata": 9,
+  "total_strata": 12,
+  "interpretation": "PASS permits considering further simulations; does not establish human behaviour or evolutionary findings",
+  "raw_stage_export_partial_after_resume": true
+}

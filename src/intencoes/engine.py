@@ -27,6 +27,10 @@ class View:
     config: RuleConfig
     claims: int = 0  # public: character claims made so far (actions and blocks)
     challenges: int = 0  # public: challenges issued so far
+    block_history: tuple = ()  # (action, mode, offers, stands); no hidden card truth
+    # (player, action, mode, offers, claims, stands); ONLY public opportunities
+    # and public responses, never private card ownership or strategy parameters.
+    player_block_history: tuple = ()
 
     @property
     def active(self):
@@ -95,6 +99,8 @@ class Game:
         self.elimination_order: list[int] = []
         self.n_claims = 0
         self.n_challenges = 0
+        self.block_history: dict[tuple, list[int]] = {}  # publicly observed (offers, stands)
+        self.player_block_history: dict[tuple, list[int]] = {}  # (offers, claims, stands)
 
     # ---------------------------------------------------------------- helpers
     def view(self, i: int) -> View:
@@ -110,6 +116,10 @@ class Game:
             config=self.config,
             claims=self.n_claims,
             challenges=self.n_challenges,
+            block_history=tuple((action, mode, values[0], values[1])
+                                for (action, mode), values in self.block_history.items()),
+            player_block_history=tuple((j, action, mode, *values)
+                                       for (j, action, mode), values in self.player_block_history.items()),
         )
 
     def alive(self):
@@ -199,6 +209,9 @@ class Game:
         ev = {"turn": self.turn, "event": "action", "actor": i, "action": action.value, "target": target,
               "claim": claim.value if claim else None,
               "claim_true": (claim in self.players[i].hand) if claim else None}
+        forecast = getattr(self.agents[i], "predicted_block_probability", None)
+        if action in BLOCKERS and callable(forecast):
+            ev["p_blocked_pred"] = forecast(self.view(i), action, target)
         self.log.append(ev)
         result = self._resolve(i, action, target, claim)
         ev["result"] = result
@@ -245,6 +258,12 @@ class Game:
     def _block_phase(self, actor, action, target) -> bool:
         """Returns True if the action is blocked."""
         allowed = BLOCKERS[action]
+        forecast = getattr(self.agents[actor], "predicted_block_probability", None)
+        stage_event = {"turn": self.turn, "event": "block_stage", "actor": actor,
+                       "action": action.value, "target": target, "stood": False}
+        if callable(forecast):
+            stage_event["p_blocked_pred"] = forecast(self.view(actor), action, target)
+        self.log.append(stage_event)
         blocker, ch, interventor = None, None, False
         if action == ActionType.FOREIGN_AID:
             candidates = [(j, False) for j in self.clockwise_from(actor)]
@@ -253,9 +272,22 @@ class Game:
             if self.config.intervention_enabled and action in INTERVENABLE:
                 candidates += [(j, True) for j in self.clockwise_from(target, exclude=(actor,))]
         for j, as_int in candidates:
+            mode = "aid" if action == ActionType.FOREIGN_AID else ("intervention" if as_int else "target")
+            counts = self.block_history.setdefault((action, mode), [0, 0])
+            counts[0] += 1
+            individual = self.player_block_history.setdefault((j, action, mode), [0, 0, 0])
+            individual[0] += 1
+            offer_event = {"turn": self.turn, "event": "block_offer", "actor": actor,
+                           "action": action.value, "target": target, "player": j,
+                           "mode": mode, "has_blocker": bool(set(allowed) & set(self.players[j].hand)),
+                           "claimed": False, "stood": False}
+            # The full log is researcher-only; hidden 'has_blocker' is NEVER put in View.
+            self.log.append(offer_event)
             choice = self.agents[j].block(self.view(j), action, actor, target, as_int)
             if choice is not None and choice in allowed:
                 blocker, ch, interventor = j, choice, as_int
+                offer_event["claimed"] = True
+                individual[1] += 1
                 break
         if blocker is None:
             return False
@@ -266,6 +298,13 @@ class Game:
         self.log.append(ev)
         stands = self._challenge_phase(blocker, ch, action, actor, target, "intervention" if interventor else "block")
         ev["stands"] = stands
+        offer_event["stood"] = stands
+        stage_event["stood"] = stands
+        if stands:
+            self.block_history[(action, "aid" if action == ActionType.FOREIGN_AID else
+                                ("intervention" if interventor else "target"))][1] += 1
+            self.player_block_history[(blocker, action, "aid" if action == ActionType.FOREIGN_AID else
+                                       ("intervention" if interventor else "target"))][2] += 1
         if stands and interventor and self.players[blocker].alive:
             ev["reward"] = self._pay_from_treasury(blocker, self.config.intervention_reward)
         return stands

@@ -17,7 +17,9 @@ def game_record(g: Game) -> dict:
     rec = {"winner": g.winner, "turns": g.turn, "first_player": g.first_player}
     n = g.config.n_players
     for k in ("actions", "bluffs", "challenges", "challenges_correct", "blocks", "block_bluffs",
-              "interventions", "interventions_stood", "intervention_bluffs", "intervention_reward"):
+              "interventions", "interventions_stood", "intervention_bluffs", "intervention_reward",
+              "target_block_offers", "target_block_stands", "intervention_offers",
+              "intervention_offer_card_available", "intervention_stands"):
         rec[k] = 0
     rec["intervened_by"] = [0] * n
     for e in g.log:
@@ -27,6 +29,14 @@ def game_record(g: Game) -> dict:
         elif e["event"] == "challenge":
             rec["challenges"] += 1
             rec["challenges_correct"] += not e["claim_true"]
+        elif e["event"] == "block_offer":
+            if e["mode"] == "target":
+                rec["target_block_offers"] += 1
+                rec["target_block_stands"] += e["stood"]
+            elif e["mode"] == "intervention":
+                rec["intervention_offers"] += 1
+                rec["intervention_offer_card_available"] += e["has_blocker"]
+                rec["intervention_stands"] += e["stood"]
         elif e["event"] == "block":
             if e["interventor"]:
                 rec["interventions"] += 1

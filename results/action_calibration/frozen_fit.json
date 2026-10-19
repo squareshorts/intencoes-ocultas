@@ -1,0 +1,37 @@
+{
+  "status": "development_frozen",
+  "fit_version": 1,
+  "fit_family": "blend25",
+  "fit_policy": "opponent",
+  "seed_starts": {
+    "mixed": 1350000,
+    "shifted": 1370000
+  },
+  "training_games_per_population": 1600,
+  "dev_screen_starts": {
+    "mixed": 1390000,
+    "shifted": 1410000
+  },
+  "dev_screen_games_per_population": 600,
+  "ridge": 10.0,
+  "groups": [
+    "steal_target_two",
+    "steal_target_one",
+    "assassinate_target_two",
+    "assassinate_target_one"
+  ],
+  "training_stage_counts": [
+    172,
+    1367,
+    708,
+    983
+  ],
+  "offsets": [
+    0.30770885303219203,
+    -0.20831734467032362,
+    0.3492019815174937,
+    0.5657014909624479
+  ],
+  "sha256": "30c3397597c479b31dff720187991350458aa58426c3757befda709a1cb9f483",
+  "holdout_seed_policy": "3000000 + n_players*100000 + shifted*20000, 0..N-1; separate from all development seeds"
+}

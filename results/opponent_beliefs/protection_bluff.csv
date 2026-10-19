@@ -1,0 +1,7 @@
+trait,theta,games_per_arm,focal_baseline_win_prob,focal_mutant_win_prob,focal_win_diff,paired_diff_ci_low,paired_diff_ci_high,baseline_offers_per_game,mutant_offers_per_game,baseline_intervention_offers_per_game,mutant_intervention_offers_per_game,baseline_fake_block_claims_per_game,mutant_fake_block_claims_per_game,baseline_fake_interventions_per_game,mutant_fake_interventions_per_game
+block_bluff,0.0,1600,0.250625,0.26125,0.010625,-0.003453124999999999,0.025,5.93875,6.055,0.075625,0.073125,0.129375,1.386875,0.0,0.0
+block_bluff,0.3,1600,0.238125,0.13,-0.108125,-0.126875,-0.09,3.726875,2.6475,0.081875,0.0825,0.15875,0.886875,0.0,0.0
+block_bluff,0.6,1600,0.265,0.120625,-0.144375,-0.162828125,-0.125,3.31875,2.14625,0.06375,0.056875,0.146875,0.775,0.0,0.0
+intervene_bluff,0.0,1600,0.24375,0.2375,-0.00625,-0.01125,-0.001875,6.099375,6.124375,0.07125,0.061875,0.15,0.1925,0.0,0.04
+intervene_bluff,0.3,1600,0.255,0.2475,-0.0075,-0.0125,-0.003125,3.9,3.86875,0.094375,0.093125,0.171875,0.213125,0.0,0.04375
+intervene_bluff,0.6,1600,0.265625,0.26125,-0.004375,-0.008125,-0.001875,3.34375,3.33375,0.054375,0.05375,0.120625,0.14,0.0,0.02

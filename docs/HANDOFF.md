@@ -19,11 +19,23 @@
 > - `experiments/01`–`04` produce `results/exp*.csv`. Raw per-game data goes in `results/raw/` (gitignored and regenerable).
 > - Windows: anything that uses `ProcessPoolExecutor` must run as a script file, not via stdin. Runs take minutes, so launch them in the background.
 >
-> **Open work, in priority order (also tracked in `docs/paper_outline.md`):**
-> 1. **Calibrate attackers' P(blocked).**
->    - Exp 2–4 were rerun with the block-aware model (results in `results/`, summaries via `experiments/summarise.py`). Intervention nearly vanished (0.01/game), because attackers assume every eligible blocker-holder always intervenes; only 8% of attacks are actually blocked.
->    - Fix: add public counters of intervention opportunities and interventions to `View`, and scale the interventor term in `HeuristicAgent._p_blocked` by the Laplace rate (as `_bluff_score` does for challenges).
->    - Re-gate (bluffers invade non-sceptics; sceptics resist), check calibration (predicted vs actual block rate), then rerun exp 2–4 (≈2.7 h).
+> **Open work, in priority order (see `docs/endogenous_opportunities_2026_10_19.md`):**
+> 1. **Action-specific public blocking calibration tested to completion; strict gate NOT met.**
+>    Read `docs/action_specific_calibration_2026_10_19.md`. The first four-player-trained
+>    model passed 9/12 independent in-policy action strata. The final public
+>    table-size model passed 11/12 on **7,800 completely new full games**;
+>    remaining error was **n=3, shifted, Sombra: −9.5 pp**, 95% game-clustered
+>    CI [−14.2, −5.2] pp. Improved Brier scores do not make that conditional
+>    forecast calibrated. Do NOT retrofit the gate, leak simulator policy
+>    labels or hidden cards, or replace historical Experiments 2–4. The new
+>    predictor is opt-in via `Params.block_prediction="opponent_action"` plus
+>    coefficients in `results/action_calibration/frozen_size_fit.json`; the
+>    default is still `empirical`. Stop the ad-hoc forecast-tuning loop and
+>    move to a *predeclared, affordable* sensitivity experiment comparing
+>    baseline opponent, empirical and frozen size-aware policies, together
+>    with analytic volunteer/inspection reductions. Label any selection
+>    findings policy-conditional. `experiments/17_summarise_action_calibration.py`
+>    prints the already completed holdouts without regenerating them.
 > 2. Token economy: launch runs in the background, read only compact summaries (write a `summarise.py`, ≤30 lines per experiment), and never print raw logs or full payoff matrices.
 > 3. Moran/Fermi finite-population dynamics with a selection-strength sweep.
 > 4. Analytic sub-models (volunteer's dilemma, inspection game) as validation.
@@ -36,4 +48,7 @@
 > - Do not confuse this project with the user's SMR/EEG repos in `C:\work`.
 > - Before outward-facing actions (new repos, making anything public), confirm with the user.
 
-_Last updated: 2026-10-19, exp 2–4 rerun done; P(blocked) miscalibration found._
+_Last updated: 2026-10-19, endogenous-policy calibration and controlled opportunity gate;
+see docs/endogenous_opportunities_2026_10_19.md._
+
+_Last updated: 2026-10-19, independent size-aware action calibration validation, strict gate 11/12 FAIL._

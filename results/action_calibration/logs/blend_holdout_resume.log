@@ -1,0 +1,18 @@
+RESUME SKIP 3 mixed opponent
+RESUME SKIP 3 mixed opponent_action
+RESUME SKIP 3 shifted opponent
+RESUME SKIP 3 shifted opponent_action
+RESUME SKIP 4 mixed opponent
+RESUME SKIP 4 mixed opponent_action
+RESUME SKIP 4 shifted opponent
+TEST 4 shifted opponent_action steal n 927 gap -0.072 old_gap -0.022 brier_delta 0.0047
+TEST 4 shifted opponent_action assassinate n 457 gap -0.067 old_gap -0.142 brier_delta -0.0165
+TEST 5 mixed opponent steal n 1262 gap -0.003 old_gap 0.032 brier_delta -0.0031
+TEST 5 mixed opponent assassinate n 893 gap 0.056 old_gap -0.013 brier_delta 0.0048
+TEST 5 mixed opponent_action steal n 1526 gap -0.011 old_gap 0.041 brier_delta -0.0044
+TEST 5 mixed opponent_action assassinate n 660 gap 0.021 old_gap -0.035 brier_delta -0.0008
+TEST 5 shifted opponent steal n 1283 gap -0.06 old_gap -0.036 brier_delta 0.0035
+TEST 5 shifted opponent assassinate n 1064 gap -0.053 old_gap -0.14 brier_delta -0.0214
+TEST 5 shifted opponent_action steal n 1342 gap -0.094 old_gap -0.054 brier_delta 0.009
+TEST 5 shifted opponent_action assassinate n 611 gap -0.05 old_gap -0.118 brier_delta -0.0169
+FROZEN HELDOUT GATE FAIL 9 / 12

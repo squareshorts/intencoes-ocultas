@@ -1,0 +1,48 @@
+{
+  "status": "development_frozen",
+  "fit_version": 2,
+  "fit_policy": "opponent_action",
+  "seed_starts": {
+    "mixed": 1100000,
+    "shifted": 1130000
+  },
+  "training_games_per_population": 1600,
+  "dev_screen_starts": {
+    "mixed": 1290000,
+    "shifted": 1310000
+  },
+  "dev_screen_games_per_population": 600,
+  "ridge": 10.0,
+  "groups": [
+    "steal_target_two",
+    "steal_target_one",
+    "assassinate_target_two",
+    "assassinate_target_one"
+  ],
+  "training_stage_counts": [
+    191,
+    1396,
+    716,
+    993
+  ],
+  "offsets": [
+    0.27905743747887496,
+    0.2233237276359636,
+    0.5656124904339659,
+    1.5320244674866903
+  ],
+  "sha256": "148421148cf44fe787fee0e77a289f96864f99d1342ac0a5c248ce62ddd1c8d1",
+  "holdout_seed_policy": "3000000 + n_players*100000 + shifted*20000, 0..N-1; separate from all development seeds",
+  "initial_offsets": [
+    0.5116337206260659,
+    -0.12832393013150292,
+    0.3620706104613306,
+    0.43744151254018854
+  ],
+  "self_policy_training_starts": {
+    "mixed": 1250000,
+    "shifted": 1270000
+  },
+  "self_policy_training_games_per_population": 1600,
+  "refit_rule": "one full fixed-policy likelihood update; no second refinement"
+}

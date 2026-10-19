@@ -94,6 +94,25 @@ No existing model combines all three. Theory of third parties is dominated by *p
   - **Remaining artifact:** the `bluff` coin flip replaces the honest action even when the honest action is better, and even when the best bluff's score is negative.
 - **Proposed fix (needs the author's go-ahead):** bluff only if the best bluff's score exceeds the best honest option's value, with `bluff` acting as a propensity/temperature. Then rerun the gate before exp 2–4.
 
+**Gate, second attempt (2026-10-19)** — not passed; reruns not launched.
+- Changes:
+  - a bluff happens only if its score beats the best honest option;
+  - P(challenged) = min(1, 2·rate·(1 − p_public)), where rate = Laplace estimate of the table's public challenge frequency (`View.claims`, `View.challenges`).
+- Lone focal, 4,000 games per cell:
+
+  | Focal | Residents | n = 4 | n = 5 |
+  |---|---|---|---|
+  | Bluffer | HonestSceptic | 2.70 | 2.89 |
+  | Bluffer | Pushover | 1.05 [0.99, 1.10] | 0.60 |
+  | Pushover + bluff 0.5 | Pushover | 0.59 | 0.52 |
+
+- Diagnosis (instrumented, 3,000 games):
+  - the bluffer is rarely caught (0.12 caught lies per game);
+  - it bluffs Sombra 2.1×/game; each attempt costs 3 coins up front (A4, no refund) and is often blocked by a real Guardião, held by the target or an interventor;
+  - it saves for fewer Golpes Diretos (0.81 vs 1.45 per game).
+- **Remaining artifact:** `_gain` values an assassination at 7 − 3 = 4 and a steal at its face amount, ignoring P(blocked). Intervention makes blocks *more* likely. This also affects honest play.
+- **Proposed fix:** discount steal/assassination gains by the public probability that the target or any eligible interventor holds a blocker. Then re-gate.
+
 ## Status
 - [x] Engine, agents, tests (`src/`, `tests/`)
 - [x] Pilot experiment 1 (`results/exp1_*.csv`). Superseded by exp 2 for inference.
@@ -104,7 +123,8 @@ No existing model combines all three. Theory of third parties is dominated by *p
 - [ ] Reconcile exp 2 (faked protection selected against) with exp 3 (faked share rises with r)
 - [x] EGTA + α-Rank pipeline, n = 3, 4, 5 (exp 4) — pre-fix, see artifact note
 - [x] Strategic bluff target + random-mode ablation; stake bonus evolves
-- [ ] Bluff only when it beats the honest option (gate failed without this); re-gate, then rerun exp 2–4
+- [x] Bluff only when it beats the honest option; table-adaptive challenge risk
+- [ ] Discount steal/assassination gain by P(blocked) (gate still fails without it); re-gate, then rerun exp 2–4
 - [ ] Moran/Fermi dynamics with a selection-strength sweep
 - [ ] Analytic sub-models (volunteer's dilemma, inspection game)
 - [ ] Confirm ⚠ rule assumptions with the author

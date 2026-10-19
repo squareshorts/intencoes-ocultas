@@ -21,11 +21,10 @@
 >
 > **Open work, in priority order (also tracked in `docs/paper_outline.md`):**
 > 1. **Bluffing artifact, partly fixed.**
->    - Done: strategic bluff target (`Params.bluff_target`); stake bonus evolves.
->    - The smoke-test gate still failed. Bluffers can't invade even never-challenging Pushovers, because the `bluff` coin flip overrides better honest actions.
->    - Next: bluff only when the best bluff beats the honest option. Re-run the gate (see `docs/paper_outline.md` for the table and code).
->    - Only if the gate passes: rerun exp 2–4 (≈3 h on 22 cores), with exp 3 at ≥20 replicates.
->    - Keep the 0e270d5 results as the "random bluff target" ablation.
+>    - Done: strategic bluff target; a bluff happens only if it beats the honest option; table-adaptive challenge risk; stake bonus evolves.
+>    - The gate still fails: bluffers can't invade Pushovers, because `_gain` ignores P(blocked) and sunk assassination costs.
+>    - Next: discount steal/assassination gains by the public probability of a block (target or any eligible interventor). Re-run the gate (see the `docs/paper_outline.md` table and diagnostic).
+>    - Only if it passes: rerun exp 2–4 (≈3 h). Keep the 0e270d5 results as the "random bluff target" ablation.
 > 2. Token economy: launch runs in the background, read only compact summaries (write a `summarise.py`, ≤30 lines per experiment), and never print raw logs or full payoff matrices.
 > 3. Moran/Fermi finite-population dynamics with a selection-strength sweep.
 > 4. Analytic sub-models (volunteer's dilemma, inspection game) as validation.
@@ -38,4 +37,4 @@
 > - Do not confuse this project with the user's SMR/EEG repos in `C:\work`.
 > - Before outward-facing actions (new repos, making anything public), confirm with the user.
 
-_Last updated: 2026-10-19, strategic-bluff fix in; smoke-test gate failed, long reruns not launched._
+_Last updated: 2026-10-19, second gate failed (action valuation ignores blocks); long reruns not launched._

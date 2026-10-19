@@ -73,17 +73,25 @@ class RandomAgent(Agent):
     def act(self, view):
         return self.rng.choice(self._game.legal_actions(view.me))
 
-    def _bluff_score(self, view, act):
-        """Expected coin-equivalent gain of a bluffed action minus expected loss if challenged."""
+    def _gain(self, view, act):
+        """Coin-equivalent value of an action if it succeeds."""
         c, (action, target) = view.config, act
-        gain = {
+        return {
             ActionType.TAX: c.tax_amount,
             ActionType.STEAL: min(c.steal_amount, view.coins[target]) if target is not None else 0,
             ActionType.ASSASSINATE: INFLUENCE_VALUE - c.assassinate_cost,
             ActionType.EXCHANGE: EXCHANGE_VALUE,
         }[action]
-        p_challenged = 1.0 - p_holds_public(view, view.me, CLAIM[action])
-        return gain - p_challenged * INFLUENCE_VALUE + self.rng.random() * 1e-6
+
+    def _bluff_score(self, view, act):
+        """Expected gain of a bluffed action minus expected loss if challenged.
+
+        P(challenged) = riskiness of the claim (1 - p_holds_public) scaled by how often this
+        table has challenged so far (Laplace estimate; prior 0.5 gives scale 1).
+        """
+        rate = (view.challenges + 1) / (view.claims + 2)
+        p_challenged = min(1.0, 2 * rate * (1.0 - p_holds_public(view, view.me, CLAIM[act[0]])))
+        return self._gain(view, act) - p_challenged * INFLUENCE_VALUE + self.rng.random() * 1e-6
 
     def _credible_block(self, view, options):
         """Bluffed block: claim the character that looks most plausible to the table."""
@@ -156,27 +164,41 @@ class HeuristicAgent(Agent):
             return opts
 
         honest, bluffs = options(True), options(False)
-        if bluffs and self.rng.random() < self.p.bluff:
-            if self.p.bluff_target == "random":
+        if self.p.bluff_target == "random":  # pre-fix ablation: the coin flip overrides honest play
+            if bluffs and self.rng.random() < self.p.bluff:
                 return self.rng.choice(bluffs)
-            return max(bluffs, key=lambda a: self._bluff_score(view, a))
+        elif bluffs and self.rng.random() < self.p.bluff:
+            # consider bluffing; do it only if the best bluff beats the best honest option
+            best = max(bluffs, key=lambda a: self._bluff_score(view, a))
+            fallback = 2 * self.p.foreign_aid + 1 * (1 - self.p.foreign_aid)
+            honest_value = max([self._gain(view, a) for a in honest] + [fallback])
+            if self._bluff_score(view, best) > honest_value:
+                return best
         if honest:
             return honest[0]  # ordered by preference
         if self.rng.random() < self.p.foreign_aid:
             return ActionType.FOREIGN_AID, None
         return ActionType.INCOME, None
 
-    def _bluff_score(self, view, act):
-        """Expected coin-equivalent gain of a bluffed action minus expected loss if challenged."""
+    def _gain(self, view, act):
+        """Coin-equivalent value of an action if it succeeds."""
         c, (action, target) = view.config, act
-        gain = {
+        return {
             ActionType.TAX: c.tax_amount,
             ActionType.STEAL: min(c.steal_amount, view.coins[target]) if target is not None else 0,
             ActionType.ASSASSINATE: INFLUENCE_VALUE - c.assassinate_cost,
             ActionType.EXCHANGE: EXCHANGE_VALUE,
         }[action]
-        p_challenged = 1.0 - p_holds_public(view, view.me, CLAIM[action])
-        return gain - p_challenged * INFLUENCE_VALUE + self.rng.random() * 1e-6
+
+    def _bluff_score(self, view, act):
+        """Expected gain of a bluffed action minus expected loss if challenged.
+
+        P(challenged) = riskiness of the claim (1 - p_holds_public) scaled by how often this
+        table has challenged so far (Laplace estimate; prior 0.5 gives scale 1).
+        """
+        rate = (view.challenges + 1) / (view.claims + 2)
+        p_challenged = min(1.0, 2 * rate * (1.0 - p_holds_public(view, view.me, CLAIM[act[0]])))
+        return self._gain(view, act) - p_challenged * INFLUENCE_VALUE + self.rng.random() * 1e-6
 
     def _credible_block(self, view, options):
         """Bluffed block: claim the character that looks most plausible to the table."""

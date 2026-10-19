@@ -25,6 +25,8 @@ class View:
     treasury: int
     turn: int
     config: RuleConfig
+    claims: int = 0  # public: character claims made so far (actions and blocks)
+    challenges: int = 0  # public: challenges issued so far
 
     @property
     def active(self):
@@ -91,6 +93,8 @@ class Game:
         self.log: list[dict] = []
         self.winner = None
         self.elimination_order: list[int] = []
+        self.n_claims = 0
+        self.n_challenges = 0
 
     # ---------------------------------------------------------------- helpers
     def view(self, i: int) -> View:
@@ -104,6 +108,8 @@ class Game:
             treasury=self.treasury,
             turn=self.turn,
             config=self.config,
+            claims=self.n_claims,
+            challenges=self.n_challenges,
         )
 
     def alive(self):
@@ -150,8 +156,10 @@ class Game:
 
     def _challenge_phase(self, claimant: int, ch: Character, action: ActionType, actor: int, target, kind: str) -> bool:
         """Offer a challenge on `claimant`'s claim of `ch`. Returns True if the claim stands."""
+        self.n_claims += 1
         for j in self.clockwise_from(claimant):
             if self.agents[j].challenge(self.view(j), claimant, ch, action, actor, target):
+                self.n_challenges += 1
                 cost = min(self.config.challenge_cost, self.players[j].coins)
                 if cost:
                     self._pay_to_treasury(j, cost)

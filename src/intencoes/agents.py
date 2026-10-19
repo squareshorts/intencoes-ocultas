@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from math import comb
 
 from .engine import Agent, View
-from .rules import BLOCKERS, CLAIM, ActionType, Character
+from .rules import BLOCKERS, CLAIM, INTERVENABLE, ActionType, Character
 
 # Value used when choosing which card to lose / keep (higher = keep).
 CARD_VALUE = {
@@ -74,14 +74,39 @@ class RandomAgent(Agent):
         return self.rng.choice(self._game.legal_actions(view.me))
 
     def _gain(self, view, act):
-        """Coin-equivalent value of an action if it succeeds."""
+        """Expected coin-equivalent value of an action, net of the chance it is blocked.
+
+        Steal and assassination are discounted by P(blocked): the chance, from this agent's
+        view, that the target or any eligible interventor holds a blocking character.
+        The assassination cost is paid even when blocked (A4).
+        """
         c, (action, target) = view.config, act
-        return {
-            ActionType.TAX: c.tax_amount,
-            ActionType.STEAL: min(c.steal_amount, view.coins[target]) if target is not None else 0,
-            ActionType.ASSASSINATE: INFLUENCE_VALUE - c.assassinate_cost,
-            ActionType.EXCHANGE: EXCHANGE_VALUE,
-        }[action]
+        if action == ActionType.TAX:
+            return c.tax_amount
+        if action == ActionType.EXCHANGE:
+            return EXCHANGE_VALUE
+        p_ok = 1.0 - self._p_blocked(view, action, target)
+        if action == ActionType.STEAL:
+            return p_ok * (min(c.steal_amount, view.coins[target]) if target is not None else 0)
+        return p_ok * INFLUENCE_VALUE - c.assassinate_cost  # ASSASSINATE
+
+    def _p_blocked(self, view, action, target):
+        """P(at least one hidden card of the potential blockers is a blocking character)."""
+        c = view.config
+        if self.p.bluff_target == "random":
+            return 0.0  # pre-fix valuation ignored blocks
+        blockers = set(BLOCKERS[action])
+        seen = list(view.hand) + [x for r in view.revealed for x in r]
+        k = sum(c.copies_per_character - seen.count(ch) for ch in blockers)
+        unseen = view.deck_size + sum(n for j, n in enumerate(view.hidden_counts) if j != view.me)
+        who = [target]
+        if c.intervention_enabled and action in INTERVENABLE:
+            who += [j for j in view.active if j not in (view.me, target)]
+        h = sum(view.hidden_counts[j] for j in who)
+        if k <= 0 or unseen <= 0 or h <= 0:
+            return 0.0
+        h = min(h, unseen)
+        return 1.0 - comb(unseen - k, h) / comb(unseen, h)
 
     def _bluff_score(self, view, act):
         """Expected gain of a bluffed action minus expected loss if challenged.
@@ -174,21 +199,50 @@ class HeuristicAgent(Agent):
             honest_value = max([self._gain(view, a) for a in honest] + [fallback])
             if self._bluff_score(view, best) > honest_value:
                 return best
+        if honest and self.p.bluff_target == "random":
+            return honest[0]  # pre-fix: fixed preference order
         if honest:
-            return honest[0]  # ordered by preference
+            best_honest = max(honest, key=lambda a: self._gain(view, a) + self.rng.random() * 1e-6)
+            if self._gain(view, best_honest) >= 2 * self.p.foreign_aid + 1 * (1 - self.p.foreign_aid):
+                return best_honest
         if self.rng.random() < self.p.foreign_aid:
             return ActionType.FOREIGN_AID, None
         return ActionType.INCOME, None
 
     def _gain(self, view, act):
-        """Coin-equivalent value of an action if it succeeds."""
+        """Expected coin-equivalent value of an action, net of the chance it is blocked.
+
+        Steal and assassination are discounted by P(blocked): the chance, from this agent's
+        view, that the target or any eligible interventor holds a blocking character.
+        The assassination cost is paid even when blocked (A4).
+        """
         c, (action, target) = view.config, act
-        return {
-            ActionType.TAX: c.tax_amount,
-            ActionType.STEAL: min(c.steal_amount, view.coins[target]) if target is not None else 0,
-            ActionType.ASSASSINATE: INFLUENCE_VALUE - c.assassinate_cost,
-            ActionType.EXCHANGE: EXCHANGE_VALUE,
-        }[action]
+        if action == ActionType.TAX:
+            return c.tax_amount
+        if action == ActionType.EXCHANGE:
+            return EXCHANGE_VALUE
+        p_ok = 1.0 - self._p_blocked(view, action, target)
+        if action == ActionType.STEAL:
+            return p_ok * (min(c.steal_amount, view.coins[target]) if target is not None else 0)
+        return p_ok * INFLUENCE_VALUE - c.assassinate_cost  # ASSASSINATE
+
+    def _p_blocked(self, view, action, target):
+        """P(at least one hidden card of the potential blockers is a blocking character)."""
+        c = view.config
+        if self.p.bluff_target == "random":
+            return 0.0  # pre-fix valuation ignored blocks
+        blockers = set(BLOCKERS[action])
+        seen = list(view.hand) + [x for r in view.revealed for x in r]
+        k = sum(c.copies_per_character - seen.count(ch) for ch in blockers)
+        unseen = view.deck_size + sum(n for j, n in enumerate(view.hidden_counts) if j != view.me)
+        who = [target]
+        if c.intervention_enabled and action in INTERVENABLE:
+            who += [j for j in view.active if j not in (view.me, target)]
+        h = sum(view.hidden_counts[j] for j in who)
+        if k <= 0 or unseen <= 0 or h <= 0:
+            return 0.0
+        h = min(h, unseen)
+        return 1.0 - comb(unseen - k, h) / comb(unseen, h)
 
     def _bluff_score(self, view, act):
         """Expected gain of a bluffed action minus expected loss if challenged.

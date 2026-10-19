@@ -73,6 +73,27 @@ No existing model combines all three. Theory of third parties is dominated by *p
 - The replicator keeps HonestProtector at ≈ 0.58 for n = 3, r = 0. Protection mostly vanishes at larger tables and higher r. This contrasts with exp 2's positive gradient; reconcile later.
 - ⚠ **Model artifact (found in exp 4):** when bluffing, `HeuristicAgent.act` claims a *random* unheld character, often a weak action such as exchange. "Bluffing" therefore conflates lying with playing worse. A lone Bluffer among Pushovers (who never challenge) gets only 0.60 of fair share at n = 5. Every bluffing result in exp 2–4 is affected. **Fix:** bluff by claiming the most valuable action. Then rerun exp 2–4.
 
+**Bluff-policy fix and smoke-test gate (2026-10-19)** — not passed; the long reruns were not launched.
+- Implemented `Params.bluff_target = "strategic"` (the default):
+  - an action bluff claims the unheld action maximising gain − P(challenged)·7, where P(challenged) = 1 − `p_holds_public`;
+  - a bluffed block or intervention claims the most credible character;
+  - `"random"` keeps the pre-fix behaviour, so the 0e270d5 results serve as the "bluff target selection" ablation.
+- `stake_bonus` is now an evolving trait in `evolution.TRAITS`, initialised at 0.15.
+- Gate: a lone Bluffer among non-sceptical residents, 4,000 games per cell, relative payoff [95% CI]:
+
+  | Residents | n | strategic | random |
+  |---|---|---|---|
+  | Pushover | 4 | 1.04 [0.99, 1.09] | 0.97 [0.92, 1.02] |
+  | Pushover | 5 | 0.69 [0.64, 0.75] | 0.59 [0.54, 0.65] |
+  | HonestTrusting | 4 | 0.60 [0.56, 0.65] | 0.49 [0.45, 0.53] |
+  | HonestTrusting | 5 | 0.55 [0.50, 0.60] | 0.42 [0.37, 0.46] |
+
+- Diagnosis:
+  - stake bonus is not the cause: the stake-0 Bluffer gets 0.83 / 0.70;
+  - a Pushover with action bluff 0.5 and nothing else still gets 0.70 / 0.64 against never-challengers.
+  - **Remaining artifact:** the `bluff` coin flip replaces the honest action even when the honest action is better, and even when the best bluff's score is negative.
+- **Proposed fix (needs the author's go-ahead):** bluff only if the best bluff's score exceeds the best honest option's value, with `bluff` acting as a propensity/temperature. Then rerun the gate before exp 2–4.
+
 ## Status
 - [x] Engine, agents, tests (`src/`, `tests/`)
 - [x] Pilot experiment 1 (`results/exp1_*.csv`). Superseded by exp 2 for inference.
@@ -82,7 +103,8 @@ No existing model combines all three. Theory of third parties is dominated by *p
 - [ ] Make the stake bonus an evolving trait; rerun exp 3 with ≥20 reps and longer runs
 - [ ] Reconcile exp 2 (faked protection selected against) with exp 3 (faked share rises with r)
 - [x] EGTA + α-Rank pipeline, n = 3, 4, 5 (exp 4) — pre-fix, see artifact note
-- [ ] Fix strategic bluffing in `HeuristicAgent.act`; rerun exp 2–4
+- [x] Strategic bluff target + random-mode ablation; stake bonus evolves
+- [ ] Bluff only when it beats the honest option (gate failed without this); re-gate, then rerun exp 2–4
 - [ ] Moran/Fermi dynamics with a selection-strength sweep
 - [ ] Analytic sub-models (volunteer's dilemma, inspection game)
 - [ ] Confirm ⚠ rule assumptions with the author

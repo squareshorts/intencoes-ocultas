@@ -20,8 +20,13 @@
 > - Windows: anything that uses `ProcessPoolExecutor` must run as a script file, not via stdin. Runs take minutes, so launch them in the background.
 >
 > **Open work, in priority order (also tracked in `docs/paper_outline.md`):**
-> 1. **Bluffing artifact:** `HeuristicAgent.act` bluffs by claiming a *random* unheld character, which conflates lying with weak play. Make bluffs claim the most valuable action, then rerun exp 2–4. Exp 4 alone took about 57 minutes on 22 cores.
-> 2. **Stake-bonus confound:** `stake_bonus` (scepticism when a claim involves you) is fixed in exp 3. Make it an evolving trait in `evolution.TRAITS`, rerun exp 3 with ≥20 replicates and longer runs, and reconcile the result with exp 2.
+> 1. **Bluffing artifact, partly fixed.**
+>    - Done: strategic bluff target (`Params.bluff_target`); stake bonus evolves.
+>    - The smoke-test gate still failed. Bluffers can't invade even never-challenging Pushovers, because the `bluff` coin flip overrides better honest actions.
+>    - Next: bluff only when the best bluff beats the honest option. Re-run the gate (see `docs/paper_outline.md` for the table and code).
+>    - Only if the gate passes: rerun exp 2–4 (≈3 h on 22 cores), with exp 3 at ≥20 replicates.
+>    - Keep the 0e270d5 results as the "random bluff target" ablation.
+> 2. Token economy: launch runs in the background, read only compact summaries (write a `summarise.py`, ≤30 lines per experiment), and never print raw logs or full payoff matrices.
 > 3. Moran/Fermi finite-population dynamics with a selection-strength sweep.
 > 4. Analytic sub-models (volunteer's dilemma, inspection game) as validation.
 > 5. Figures, ODD protocol, Sobol sensitivity analysis, and a CFR benchmark on a reduced 3-player game.
@@ -33,4 +38,4 @@
 > - Do not confuse this project with the user's SMR/EEG repos in `C:\work`.
 > - Before outward-facing actions (new repos, making anything public), confirm with the user.
 
-_Last updated: 2026-10-19, after exp 4 (EGTA); bluffing artifact found._
+_Last updated: 2026-10-19, strategic-bluff fix in; smoke-test gate failed, long reruns not launched._

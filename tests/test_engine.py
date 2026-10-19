@@ -209,3 +209,22 @@ def test_simulate_profile_counts_are_consistent():
     from intencoes.egta import simulate_profile
     wins, draws = simulate_profile((0, 0, 4, 8), RuleConfig(), games=50, seed=3)
     assert wins.sum() + draws == 50 and wins[[1, 2, 3, 5, 6, 7]].sum() == 0
+
+
+def test_strategic_bluff_prefers_safe_valuable_claim():
+    from intencoes.agents import p_holds_public
+    a = HeuristicAgent(Params(bluff=1.0), seed=0)
+    g = make_game([a, Scripted(), Scripted()], [(E, E), (S, G), (C, C)], coins=[3, 2, 2])
+    g.players[1].revealed, g.players[1].hand = [R, R], [S]  # two Regentes public: tax bluff is risky
+    g.deck.remove(G); g.deck.append(G)  # card count stays consistent
+    v = g.view(0)
+    assert p_holds_public(v, 0, R) < p_holds_public(v, 0, S)
+    action, _ = a.act(v)
+    assert action != ActionType.TAX
+    assert HeuristicAgent(Params(bluff=1.0, bluff_target="random"), seed=1).act(v)[0] in {
+        ActionType.TAX, ActionType.STEAL, ActionType.ASSASSINATE}
+
+
+def test_stake_bonus_evolves():
+    from intencoes.evolution import TRAITS
+    assert "stake_bonus" in TRAITS

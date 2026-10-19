@@ -6,6 +6,7 @@ Each agent carries heritable traits (default: all five below):
   intervene            P(protect another player when holding a valid blocker)
   intervene_bluff      P(protect another player when *not* holding one) — faked protection
   challenge_threshold  θ: challenge a claim when P(claimant holds the card) < θ
+  stake_bonus          added to θ when the claim involves the agent (initialised at 0.15)
 Other behaviour stays at the Params defaults.
 
 Generation: the population is shuffled into tables of n players, `rounds` times.
@@ -24,7 +25,7 @@ from .engine import Game
 from .rules import RuleConfig
 from .sim import game_record
 
-TRAITS = ("bluff", "block_bluff", "intervene", "intervene_bluff", "challenge_threshold")
+TRAITS = ("bluff", "block_bluff", "intervene", "intervene_bluff", "challenge_threshold", "stake_bonus")
 
 
 @dataclass(frozen=True)
@@ -46,6 +47,7 @@ def evolve(rules: RuleConfig, evo: EvoConfig, seed: int, init: str = "uniform"):
         raise ValueError("population must be a multiple of the table size")
     if init == "uniform":
         traits = rng.random((evo.pop, len(TRAITS)))
+        traits[:, TRAITS.index("stake_bonus")] = Params().stake_bonus  # start at the old fixed value
     else:  # start from the Params defaults
         base = Params()
         traits = np.tile([getattr(base, t) for t in TRAITS], (evo.pop, 1)).astype(float)

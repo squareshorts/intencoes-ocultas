@@ -38,6 +38,26 @@ def p_holds(view: View, claimant: int, ch: Character) -> float:
     return 1.0 - comb(unseen - k, h) / comb(unseen, h)
 
 
+def p_holds_public(view: View, claimant: int, ch: Character) -> float:
+    """How a typical opponent of `claimant` would rate the claim: P(claimant holds ch) using
+    only public information (revealed cards, hidden counts, deck size). Used by bluffers to
+    anticipate challenges; claims with fewer unseen copies are riskier."""
+    c = view.config
+    revealed = [x for r in view.revealed for x in r]
+    k = c.copies_per_character - revealed.count(ch)
+    if k <= 0:
+        return 0.0
+    others = [n for j, n in enumerate(view.hidden_counts) if j != claimant and n > 0]
+    # a challenger sees everything hidden except their own hand
+    unseen = view.deck_size + sum(view.hidden_counts) - (sum(others) / len(others) if others else 0)
+    unseen = int(round(unseen))
+    h = view.hidden_counts[claimant]
+    k = min(k, unseen)
+    if h == 0 or unseen <= 0:
+        return 0.0
+    return 1.0 - comb(unseen - k, h) / comb(unseen, h)
+
+
 class RandomAgent(Agent):
     """Uniformly random legal play; used for stress-testing the engine."""
 
@@ -52,6 +72,24 @@ class RandomAgent(Agent):
 
     def act(self, view):
         return self.rng.choice(self._game.legal_actions(view.me))
+
+    def _bluff_score(self, view, act):
+        """Expected coin-equivalent gain of a bluffed action minus expected loss if challenged."""
+        c, (action, target) = view.config, act
+        gain = {
+            ActionType.TAX: c.tax_amount,
+            ActionType.STEAL: min(c.steal_amount, view.coins[target]) if target is not None else 0,
+            ActionType.ASSASSINATE: INFLUENCE_VALUE - c.assassinate_cost,
+            ActionType.EXCHANGE: EXCHANGE_VALUE,
+        }[action]
+        p_challenged = 1.0 - p_holds_public(view, view.me, CLAIM[action])
+        return gain - p_challenged * INFLUENCE_VALUE + self.rng.random() * 1e-6
+
+    def _credible_block(self, view, options):
+        """Bluffed block: claim the character that looks most plausible to the table."""
+        if self.p.bluff_target == "random":
+            return self.rng.choice(options)
+        return max(options, key=lambda ch: p_holds_public(view, view.me, ch) + self.rng.random() * 1e-6)
 
     def challenge(self, view, claimant, character, action, actor, target):
         return self.rng.random() < self.p_challenge
@@ -77,6 +115,12 @@ class Params:
     intervene: float = 0.5  # P(intervene for another player when holding a blocker)
     intervene_bluff: float = 0.0  # P(bluff-intervene when holding no blocker)
     foreign_aid: float = 0.5  # P(foreign aid instead of income when no character action is chosen)
+    bluff_target: str = "strategic"  # "strategic" (gain - P(challenged)*cost) or "random" (pre-fix ablation)
+
+
+# Coin-equivalent value of a successful action, and of losing one influence (one Golpe Direto).
+INFLUENCE_VALUE = 7.0
+EXCHANGE_VALUE = 0.5
 
 
 class HeuristicAgent(Agent):
@@ -113,12 +157,32 @@ class HeuristicAgent(Agent):
 
         honest, bluffs = options(True), options(False)
         if bluffs and self.rng.random() < self.p.bluff:
-            return self.rng.choice(bluffs)
+            if self.p.bluff_target == "random":
+                return self.rng.choice(bluffs)
+            return max(bluffs, key=lambda a: self._bluff_score(view, a))
         if honest:
             return honest[0]  # ordered by preference
         if self.rng.random() < self.p.foreign_aid:
             return ActionType.FOREIGN_AID, None
         return ActionType.INCOME, None
+
+    def _bluff_score(self, view, act):
+        """Expected coin-equivalent gain of a bluffed action minus expected loss if challenged."""
+        c, (action, target) = view.config, act
+        gain = {
+            ActionType.TAX: c.tax_amount,
+            ActionType.STEAL: min(c.steal_amount, view.coins[target]) if target is not None else 0,
+            ActionType.ASSASSINATE: INFLUENCE_VALUE - c.assassinate_cost,
+            ActionType.EXCHANGE: EXCHANGE_VALUE,
+        }[action]
+        p_challenged = 1.0 - p_holds_public(view, view.me, CLAIM[action])
+        return gain - p_challenged * INFLUENCE_VALUE + self.rng.random() * 1e-6
+
+    def _credible_block(self, view, options):
+        """Bluffed block: claim the character that looks most plausible to the table."""
+        if self.p.bluff_target == "random":
+            return self.rng.choice(options)
+        return max(options, key=lambda ch: p_holds_public(view, view.me, ch) + self.rng.random() * 1e-6)
 
     def challenge(self, view, claimant, character, action, actor, target):
         threshold = self.p.challenge_threshold
@@ -134,7 +198,7 @@ class HeuristicAgent(Agent):
             if held and self.rng.random() < self.p.intervene:
                 return held[0]
             if not held and self.rng.random() < self.p.intervene_bluff:
-                return self.rng.choice(options)
+                return self._credible_block(view, options)
             return None
         if action == ActionType.FOREIGN_AID:
             if held:
@@ -145,7 +209,7 @@ class HeuristicAgent(Agent):
         bluff_p = self.p.block_bluff
         if action == ActionType.ASSASSINATE and view.hidden_counts[view.me] == 1:
             bluff_p = 1.0  # nothing left to lose
-        return self.rng.choice(options) if self.rng.random() < bluff_p else None
+        return self._credible_block(view, options) if self.rng.random() < bluff_p else None
 
     def reveal(self, view):
         return min(view.hand, key=lambda ch: CARD_VALUE[ch])

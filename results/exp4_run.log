@@ -1,0 +1,42 @@
+500/11682 profiles, 91s
+1000/11682 profiles, 169s
+1500/11682 profiles, 284s
+2000/11682 profiles, 411s
+2500/11682 profiles, 517s
+3000/11682 profiles, 626s
+3500/11682 profiles, 742s
+4000/11682 profiles, 866s
+4500/11682 profiles, 1057s
+5000/11682 profiles, 1214s
+5500/11682 profiles, 1396s
+6000/11682 profiles, 1584s
+6500/11682 profiles, 1738s
+7000/11682 profiles, 1917s
+7500/11682 profiles, 2059s
+8000/11682 profiles, 2239s
+8500/11682 profiles, 2406s
+9000/11682 profiles, 2549s
+9500/11682 profiles, 2715s
+10000/11682 profiles, 2873s
+10500/11682 profiles, 3030s
+11000/11682 profiles, 3216s
+11500/11682 profiles, 3333s
+{'n_players': 3, 'reward': 0, 'challenge_cost': 0} alpha=100 top: HonestProtector 1.0
+{'n_players': 3, 'reward': 0, 'challenge_cost': 1} alpha=100 top: HonestTrusting 1.0
+{'n_players': 3, 'reward': 1, 'challenge_cost': 0} alpha=100 top: HonestTrusting 1.0
+{'n_players': 3, 'reward': 1, 'challenge_cost': 1} alpha=100 top: HonestTrusting 0.999
+{'n_players': 3, 'reward': 2, 'challenge_cost': 0} alpha=100 top: HonestTrusting 1.0
+{'n_players': 3, 'reward': 2, 'challenge_cost': 1} alpha=100 top: HonestTrusting 1.0
+{'n_players': 4, 'reward': 0, 'challenge_cost': 0} alpha=100 top: HonestTrusting 1.0
+{'n_players': 4, 'reward': 0, 'challenge_cost': 1} alpha=100 top: HonestTrusting 1.0
+{'n_players': 4, 'reward': 1, 'challenge_cost': 0} alpha=100 top: HonestTrusting 1.0
+{'n_players': 4, 'reward': 1, 'challenge_cost': 1} alpha=100 top: HonestTrusting 0.733
+{'n_players': 4, 'reward': 2, 'challenge_cost': 0} alpha=100 top: HonestTrusting 0.996
+{'n_players': 4, 'reward': 2, 'challenge_cost': 1} alpha=100 top: Pushover 0.731
+{'n_players': 5, 'reward': 0, 'challenge_cost': 0} alpha=100 top: Pushover 1.0
+{'n_players': 5, 'reward': 0, 'challenge_cost': 1} alpha=100 top: Pushover 1.0
+{'n_players': 5, 'reward': 1, 'challenge_cost': 0} alpha=100 top: Pushover 1.0
+{'n_players': 5, 'reward': 1, 'challenge_cost': 1} alpha=100 top: Pushover 1.0
+{'n_players': 5, 'reward': 2, 'challenge_cost': 0} alpha=100 top: Pushover 1.0
+{'n_players': 5, 'reward': 2, 'challenge_cost': 1} alpha=100 top: Pushover 1.0
+done in 3418s

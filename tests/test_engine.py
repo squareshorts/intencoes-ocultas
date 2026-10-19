@@ -172,3 +172,40 @@ def test_evolution_smoke():
     assert "bluff_mean" in hist[0]
     assert len(hist) == 3 and all(0 <= h["intervene_mean"] <= 1 for h in hist)
     assert "faked_protection_share" in beh[0]
+
+
+def _synthetic_table(k, n, games, winner_rule):
+    import numpy as np
+    from intencoes.egta import PayoffTable, profiles
+    counts = {}
+    for prof in profiles(k, n):
+        wins = np.zeros(k, dtype=np.int64)
+        for t, share in winner_rule(prof).items():
+            wins[t] = int(round(share * games))
+        counts[prof] = wins
+    return PayoffTable(k, n, counts, games)
+
+
+def test_alpha_rank_and_replicator_find_dominant_type():
+    import numpy as np
+    from intencoes.egta import alpha_rank, rest_points
+    # type 0 wins every game it is in; otherwise the lowest index wins
+    table = _synthetic_table(3, 4, 1000, lambda prof: {min(prof): 1.0})
+    pi, _ = alpha_rank(table, alpha=20, M=20)
+    assert pi[0] > 0.95
+    rp = rest_points(table, starts=10)
+    assert rp[0]["x"][0] > 0.99 and rp[0]["basin"] == 1.0
+
+
+def test_alpha_rank_uniform_for_neutral_game():
+    import numpy as np
+    from intencoes.egta import alpha_rank
+    table = _synthetic_table(3, 4, 1000, lambda prof: {t: np.bincount(prof, minlength=3)[t] / 4 for t in set(prof)})
+    pi, _ = alpha_rank(table, alpha=20, M=20)
+    assert np.allclose(pi, 1 / 3, atol=1e-6)
+
+
+def test_simulate_profile_counts_are_consistent():
+    from intencoes.egta import simulate_profile
+    wins, draws = simulate_profile((0, 0, 4, 8), RuleConfig(), games=50, seed=3)
+    assert wins.sum() + draws == 50 and wins[[1, 2, 3, 5, 6, 7]].sum() == 0

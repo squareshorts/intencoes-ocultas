@@ -67,6 +67,12 @@ No existing model combines all three. Theory of third parties is dominated by *p
 - The faked-protection share rises with reward and challenge cost (0.15 at r = 0, c = 0; 0.45 at r = 3, c = 1). Suggestive for H2/H3, but with 5 reps and large SDs it is not conclusive. It is also not yet reconciled with exp 2.
 - ⚠ **Confound:** the stake bonus (extra scepticism when a claim involves you) is fixed at 0.15. Verification by involved parties is therefore built in and may be what keeps bluffing down. It must evolve too before exp 3 can be interpreted.
 
+**Exp 4 — EGTA over 9 archetypes** (n = 3, 4, 5 × r = 0–2 × c = 0–1; 3,000 games per profile; α-Rank with M = 50 and a 200-sample multinomial bootstrap; replicator rest points from 60 starts; `results/exp4_*.csv`):
+- All α-Rank mass falls in the honest, non-sceptical cluster: HonestTrusting, HonestProtector, Pushover. At n = 5 Pushover takes everything (CI [1, 1]). At n = 3–4, the ordering *within* the cluster is not robust (bootstrap CIs 0–1).
+- Sceptics are crushed: one HonestSceptic among honest players gets 0–4% of its fair share.
+- The replicator keeps HonestProtector at ≈ 0.58 for n = 3, r = 0. Protection mostly vanishes at larger tables and higher r. This contrasts with exp 2's positive gradient; reconcile later.
+- ⚠ **Model artifact (found in exp 4):** when bluffing, `HeuristicAgent.act` claims a *random* unheld character, often a weak action such as exchange. "Bluffing" therefore conflates lying with playing worse. A lone Bluffer among Pushovers (who never challenge) gets only 0.60 of fair share at n = 5. Every bluffing result in exp 2–4 is affected. **Fix:** bluff by claiming the most valuable action. Then rerun exp 2–4.
+
 ## Status
 - [x] Engine, agents, tests (`src/`, `tests/`)
 - [x] Pilot experiment 1 (`results/exp1_*.csv`). Superseded by exp 2 for inference.
@@ -75,6 +81,8 @@ No existing model combines all three. Theory of third parties is dominated by *p
 - [x] Explicit challenge-cost parameter (`RuleConfig.challenge_cost`)
 - [ ] Make the stake bonus an evolving trait; rerun exp 3 with ≥20 reps and longer runs
 - [ ] Reconcile exp 2 (faked protection selected against) with exp 3 (faked share rises with r)
-- [ ] EGTA + α-Rank pipeline; Moran dynamics; n = 3 and 5
+- [x] EGTA + α-Rank pipeline, n = 3, 4, 5 (exp 4) — pre-fix, see artifact note
+- [ ] Fix strategic bluffing in `HeuristicAgent.act`; rerun exp 2–4
+- [ ] Moran/Fermi dynamics with a selection-strength sweep
 - [ ] Analytic sub-models (volunteer's dilemma, inspection game)
 - [ ] Confirm ⚠ rule assumptions with the author

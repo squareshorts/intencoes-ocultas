@@ -51,12 +51,30 @@ No existing model combines all three. Theory of third parties is dominated by *p
    - limits of a game model;
    - a bridge to paper 2 (human data).
 
+## Findings so far (4 players, rulebook defaults otherwise)
+**Exp 2 — invasion with paired bootstrap** (40,000 paired games per cell, 95% CIs; `results/exp2_*.csv`):
+- **Honest intervention is favoured at every reward**, even r = 0. Gradient: +0.011 [0.003, 0.020] at r = 0 and +0.025 [0.016, 0.034] at r = 2. A challenge cost of 1 strengthens it.
+- **Faked intervention is selected against at every reward** (gradient ≈ −0.057 to −0.060, CIs exclude 0). With θ = 0.25 residents, this goes against H2.
+- **Third-party scepticism is a public good:**
+  - the θ gradient is ≈ −2.8 (θ grid 0–0.6), steeper with a challenge cost (≈ −2.9);
+  - a never-challenge mutant invades θ = 0.6 residents at +1.64 relative fitness;
+  - this is the second-order free-rider problem of verification.
+- **Action bluffing is selected against** (gradient ≈ −1.82) when residents check claims.
+
+**Exp 3 — co-evolution of five traits** (Wright–Fisher, N = 120, 600 generations, 5 reps per condition; `results/exp3_*.csv`):
+- All conditions converge to **honest and trusting** play: bluff ≈ 0.02–0.03, θ ≈ 0.01–0.02. Games lengthen from ~14 to ~50 turns.
+- Intervention propensity stays intermediate (0.3–0.6), with large variance between reps, which may be drift.
+- The faked-protection share rises with reward and challenge cost (0.15 at r = 0, c = 0; 0.45 at r = 3, c = 1). Suggestive for H2/H3, but with 5 reps and large SDs it is not conclusive. It is also not yet reconciled with exp 2.
+- ⚠ **Confound:** the stake bonus (extra scepticism when a claim involves you) is fixed at 0.15. Verification by involved parties is therefore built in and may be what keeps bluffing down. It must evolve too before exp 3 can be interpreted.
+
 ## Status
 - [x] Engine, agents, tests (`src/`, `tests/`)
-- [x] Pilot experiment 1 (`results/exp1_*.csv`): positive selection for honest intervention at r = 0, 1, 2. The CIs are not yet valid (shared seeds across cells).
-- [ ] Per-game paired bootstrap statistics
-- [ ] Add bluffed intervention and evolving θ to the strategy space (H2, H3)
-- [ ] Explicit challenge cost parameter (H3); currently the only cost is the lost influence
-- [ ] EGTA + α-Rank pipeline; Moran dynamics
-- [ ] Analytic sub-models
+- [x] Pilot experiment 1 (`results/exp1_*.csv`). Superseded by exp 2 for inference.
+- [x] Per-game paired bootstrap statistics (`src/intencoes/stats.py`, exp 2)
+- [x] Bluffed intervention, bluffing and evolving θ in the strategy space (exp 3)
+- [x] Explicit challenge-cost parameter (`RuleConfig.challenge_cost`)
+- [ ] Make the stake bonus an evolving trait; rerun exp 3 with ≥20 reps and longer runs
+- [ ] Reconcile exp 2 (faked protection selected against) with exp 3 (faked share rises with r)
+- [ ] EGTA + α-Rank pipeline; Moran dynamics; n = 3 and 5
+- [ ] Analytic sub-models (volunteer's dilemma, inspection game)
 - [ ] Confirm ⚠ rule assumptions with the author

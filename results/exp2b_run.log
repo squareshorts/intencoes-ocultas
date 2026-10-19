@@ -1,0 +1,25 @@
+36/432 cells, 93s
+72/432 cells, 242s
+108/432 cells, 304s
+144/432 cells, 436s
+180/432 cells, 451s
+216/432 cells, 526s
+252/432 cells, 546s
+288/432 cells, 626s
+324/432 cells, 682s
+360/432 cells, 753s
+396/432 cells, 808s
+432/432 cells, 843s
+{'trait': 'bluff', 'reward': 0, 'challenge_cost': 0} {'gradient': np.float64(-1.8206), 'ci_low': -1.833, 'ci_high': -1.8084, 'seeds': 40000}
+{'trait': 'bluff', 'reward': 0, 'challenge_cost': 1} {'gradient': np.float64(-1.8276), 'ci_low': -1.8403, 'ci_high': -1.8154, 'seeds': 40000}
+{'trait': 'bluff', 'reward': 1, 'challenge_cost': 0} {'gradient': np.float64(-1.8221), 'ci_low': -1.8348, 'ci_high': -1.8092, 'seeds': 40000}
+{'trait': 'bluff', 'reward': 1, 'challenge_cost': 1} {'gradient': np.float64(-1.8264), 'ci_low': -1.8394, 'ci_high': -1.8144, 'seeds': 40000}
+{'trait': 'bluff', 'reward': 2, 'challenge_cost': 0} {'gradient': np.float64(-1.8144), 'ci_low': -1.8268, 'ci_high': -1.802, 'seeds': 40000}
+{'trait': 'bluff', 'reward': 2, 'challenge_cost': 1} {'gradient': np.float64(-1.8217), 'ci_low': -1.8347, 'ci_high': -1.8096, 'seeds': 40000}
+{'trait': 'challenge_threshold', 'reward': 0, 'challenge_cost': 0} {'gradient': np.float64(-2.7734), 'ci_low': -2.7949, 'ci_high': -2.7515, 'seeds': 40000}
+{'trait': 'challenge_threshold', 'reward': 0, 'challenge_cost': 1} {'gradient': np.float64(-2.9264), 'ci_low': -2.9479, 'ci_high': -2.904, 'seeds': 40000}
+{'trait': 'challenge_threshold', 'reward': 1, 'challenge_cost': 0} {'gradient': np.float64(-2.7748), 'ci_low': -2.7972, 'ci_high': -2.7521, 'seeds': 40000}
+{'trait': 'challenge_threshold', 'reward': 1, 'challenge_cost': 1} {'gradient': np.float64(-2.9266), 'ci_low': -2.9481, 'ci_high': -2.9049, 'seeds': 40000}
+{'trait': 'challenge_threshold', 'reward': 2, 'challenge_cost': 0} {'gradient': np.float64(-2.7666), 'ci_low': -2.7887, 'ci_high': -2.7441, 'seeds': 40000}
+{'trait': 'challenge_threshold', 'reward': 2, 'challenge_cost': 1} {'gradient': np.float64(-2.9254), 'ci_low': -2.9464, 'ci_high': -2.9038, 'seeds': 40000}
+done in 1084s

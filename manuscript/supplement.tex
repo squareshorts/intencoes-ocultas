@@ -1,0 +1,66 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}\usepackage[utf8]{inputenc}\usepackage{lmodern}
+\usepackage[margin=2.0cm]{geometry}\usepackage{microtype}\usepackage{amsmath,amssymb}\usepackage{booktabs,graphicx,hyperref}\usepackage{caption}\usepackage{placeins}\captionsetup{font=small,labelfont=bf}
+\setlength{\tabcolsep}{3pt}
+\title{Supplementary methods and numerical results\\\normalsize Frequency-dependent strategic deception in a multiplayer hidden-information game}
+\author{Antonio Pereira\quad (authorship to be confirmed)}
+\date{19 October 2026}
+\begin{document}
+\maketitle
+
+\section*{S1. Model purpose, entities and update order}
+The purpose of the agent-based model is to determine how bluffing decisions, scepticism and third-party defence expectations influence game outcomes and conditional population payoffs. Its entities are players, active influence cards, a shuffled card deck, public revealed cards and a shared finite treasury. A player has a private set of up to two influence cards, public coins, a seat position and a parameterized decision policy. Information delivered to an agent through the \texttt{View} interface consists of its own active cards, the public card count, other players' public coins and influence counts, aggregate claim/challenge counts and publicly observed blocking offers, claims and standings. Other agents' hidden cards and their true strategy parameters are absent from the view.
+
+The environment contains five characters (Regente, Comerciante, Embaixador, Guardi\~ao and Sombra), three copies of each and three to five players. Each begins with two active cards and two coins; revealed influences remain publicly visible. On an active player's turn: (1) an action is chosen and its character is declared where required; (2) the first willing opponent in clockwise order may challenge that action; (3) if the action survives and is blockable, the target gets the first opportunity to block; (4) if the target declines, eligible third parties receive offers in clockwise order; (5) the first claim to block may itself be challenged; and (6) the action succeeds or fails. A standing third-party blocking claim yields one coin in the reference condition. After any challenge, the losing party reveals an influence; truthful claimants reinsert the proven card and receive a shuffled replacement. Attack and coup prices are returned to the treasury.
+
+The standard simulation terminates when one player retains at least one active influence; 400 turns without termination create a recorded draw. Observer comments do not affect play. Three rule interpretations remain unconfirmed, and a Sombra-cost refund sensitivity was run separately. The \texttt{Game.check\_invariants} tests conserve active/revealed/deck card counts and the total number of coins; stochastic games were checked against these invariants.
+
+\section*{S2. Agent behavioural rules}
+The action menu contains general income (one coin), external aid (up to two, blockable by Regente), Regente's three-coin claim, Comerciante's two-coin theft, Sombra's three-coin attack, Embaixador exchange and an unblockable seven-coin coup. A coup is compulsory on turns beginning with ten or more coins. Honest actions compete against a fallback policy that probabilistically chooses income or aid. A bluffer considers candidate actions requiring unheld cards at rate $0.8$; it selects a false claim only if its estimated gain, adjusted for challenge risk, exceeds the highest-valued honest candidate. Thus the policy can abstain from bluffing at high scepticism.
+
+The agent's challenge threshold is its estimate of the probability that the claimant possesses a valid card; a fixed $0.15$ additive bonus increases scepticism when the agent's own stakes are implicated. Estimates of the availability of blocking cards are hypergeometric. Defence expectations are either based on empirical table-wide offer/standing rates, defender-specific public histories, or a size/action-specific extension frozen before the present study. A claim by the first defender eliminates later intervention opportunities, regardless of whether that claim stands. A last-influence Sombra defence may be bluffed under an identical rule for both strategy types. Direct third-party intervention bluffing is set to zero.
+
+\begin{table}[htbp]\centering\small
+\caption{Fixed parameters in all primary experiments unless the indicated factor is experimentally varied.}
+\begin{tabular}{p{.48\textwidth}p{.43\textwidth}}\toprule
+Parameter & Setting \\ \midrule
+Players & 3, 4 or 5\\
+Character cards & 5 types, 3 copies each\\
+Initial active influences and coins & 2 and 2 per player\\
+Action-bluff consideration rate & 0 (honest type) or 0.8 (bluffer type)\\
+Challenge threshold $\theta$ & 0.05, 0.30, 0.50\\
+Target-related scepticism bonus & 0.15\\
+Real-card third-party intervention propensity & 0.50\\
+Voluntary bluffed intervention propensity & 0\\
+Target-bluff propensity & 0 except Sombra survival exception\\
+Foreign-aid selection parameter & 0.50\\
+Intervention reward & 1 coin (sweep 0, 1, 2)\\
+Maximum turns & 400\\
+Blocking forecast & empirical, opponent, opponent\_action\\
+\bottomrule\end{tabular}
+\end{table}
+
+\section*{S3. Paired-counterfactual and seating controls}
+The original rare-mutant comparison used the same environment seed and first-player schedule for a bluffer and an otherwise identical control. However, the act of \emph{considering} a bluff consumes draws from the strategy's random generator, which can change later decisions after a rejected bluff. The corrected \texttt{CoupledBluffAgent} snapshots the generator state, evaluates the proposed action, re-evaluates the counterfactual honest action from the same state, and restores the honest continuation whenever the selected action is not a false claim. Assertions require identical seed-paired game records whenever no actual false action is selected. The uncorrected 99,000-game screen is retained as an audit and excluded from primary inference.
+
+The new strategy-frequency study sampled every $k\in\{0,\ldots,n\}$, creating a repeated cycle of all $\binom nk$ combinations of bluffer seats. Starting-player position was counterbalanced using a separate $n\times L_n$ cycle, where $L_3=3$, $L_4=12$ and $L_5=10$ are common multiples of the corresponding numbers of subsets. Thus, for the four-player $G=1200$ simulations, each seat allocation was crossed evenly with every first-player position. A first pilot had incorrectly set the first-player position equal to the same seed modulus used by the strategy subset, phase-locking rare bluffers with the first turn. Those pilot CSVs were discarded before any final frequency analysis. The repository includes regression tests to detect this error. At $\theta=0.50$, where no false actions were attempted, every match winner was identical for the same seed across all five four-player strategy compositions; apparent frequency differences were solely due to assignment-label sampling noise.
+
+\section*{S4. Statistical estimators and simulation counts}
+Primary rare comparisons: 2,500 complete paired seed sets per policy--threshold cell for four players, and 1,500 paired sets for each three- and five-player cell. Every pair contained a control and a treatment game, so the strict-coupling series involved 99,000 completed games. The family of nine four-player comparisons was corrected by Holm's method applied to exact discordant-pair tests. A separate 99,000-game ordinary policy series documents the random-consumption issue and is not used for causal contrasts.
+
+For the frequency series, there were 45 four-player main profiles, 30 three-/five-player profiles and 10 intervention-reward profiles, each simulated 1,200 times, for 102,000 further matches. Per-player strategy payoff equals group wins divided by game count and the number of players of the type in that composition. We propagated uncertainty using 1,500 cluster bootstrap resamples, drawing entire simulation seed indices and applying the same indices across all compositions under a condition. The $n$-player expected-fitness function was computed using binomial opponent sampling in an effectively infinite well-mixed population. Candidate equilibria were roots of $f_B(x)-f_H(x)=0$; stability was defined by the sign of its derivative. At the finite-population level, an illustrative Fermi pairwise-comparison process used $M=30$ and default $\beta=5$. Changing $\beta$ changed the stationary strategy ranking appreciably, so it is not a free empirical parameter.
+
+No evolutionary fitness effect should be inferred from the total share of matches won by a group with multiple bluffers. No birth, imitation or reproduction occurred in the original games. At $\theta=0.50$, the two action policies are behaviourally identical, and finite-sample deviations in the empirical payoff table must not be interpreted as selection.
+
+\clearpage
+\section*{S5. Detailed numerical results}
+\input{tables_generated.tex}
+\FloatBarrier
+
+\section*{S6. Sensitivity and limits}
+In the alternate Sombra refund rule, 1,200 games per composition were simulated independently for four players at low scepticism using the opponent-aware forecast. The all-honest per-player win estimate was 0.2494 and the one-bluffer win estimate was 0.3317, yielding an estimated rare-bluffer advantage of 8.23 percentage points. The default rule estimates in the main article used different seeds and showed a 6.94-point advantage. Both are positive; the numerical difference between them is not a causal estimate of the refund rule's effect.
+
+The previous action-specific blocking predictor failed one of twelve held-out calibration criteria, despite favourable average Brier scores. No new calibration was carried out in these experiments. In addition, only action-bluff propensity was compared as a strategy dimension. Other evolving traits in the larger research program, including defender intervention, defensive bluffing, scepticism and the stake bonus, were held fixed within a condition. The computed two-type dynamics consequently describe selection within a restricted strategy set and do not rule out successful invasion by an unmodelled third strategy.
+
+The original repository's Results for Experiments 2--4, developed under an earlier game valuation, remain historical and are not combined with the present payoff model. Outstanding rulebook issues, public source archival, coauthor confirmation and journal-specific editorial requirements are listed in the release audit.
+\end{document}

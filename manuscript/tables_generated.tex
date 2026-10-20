@@ -1,0 +1,57 @@
+\begin{table}[htbp]\centering\scriptsize
+\caption{All four-player frequency-study selection endpoints, in percentage points. Confidence intervals are 95\% seed-clustered bootstrap intervals. Near-null values at $\theta=0.50$ reflect sampling noise; all corresponding simulations had identical trajectories across compositions.}
+\label{tab:s1}
+\begin{tabular}{llrrr}\toprule
+$\theta$ & Forecast & $\Delta(0)$ & $\Delta(0.5)$ & $\Delta(1)$ \\ \midrule
+0.05 & empirical & +4.38 [+1.86, +7.04] & +3.35 [+1.92, +4.73] & -0.08 [-2.63, +2.38] \\
+0.05 & opponent & +6.94 [+4.42, +9.58] & +4.62 [+3.17, +6.10] & -1.17 [-3.75, +1.17] \\
+0.05 & opponent\_action & +5.75 [+3.25, +8.33] & +2.55 [+1.16, +4.01] & -2.17 [-4.75, +0.25] \\
+0.30 & empirical & -1.00 [-3.38, +1.50] & -1.10 [-2.32, +0.15] & +0.33 [-2.25, +2.75] \\
+0.30 & opponent & +0.42 [-1.92, +2.96] & +0.07 [-1.23, +1.27] & +1.00 [-1.50, +3.42] \\
+0.30 & opponent\_action & -1.50 [-3.83, +1.00] & -0.08 [-1.31, +1.16] & +0.17 [-2.25, +2.58] \\
+0.50 & empirical & -0.83 [-3.33, +1.50] & +0.21 [-1.02, +1.47] & +0.67 [-1.92, +2.92] \\
+0.50 & opponent & +1.25 [-1.17, +3.83] & +0.31 [-0.94, +1.54] & -0.75 [-3.08, +1.71] \\
+0.50 & opponent\_action & -0.92 [-3.25, +1.50] & +0.33 [-0.86, +1.59] & -0.50 [-2.92, +2.08] \\
+\bottomrule\end{tabular}\end{table}
+\begin{table}[htbp]\centering\scriptsize
+\caption{Per-player win probabilities and action frequencies by four-player table composition under low scepticism. Every row represents 1,200 games; $k=0$ has no bluffer payoff, and $k=4$ has no honest-player payoff.}
+\label{tab:s2}
+\begin{tabular}{llrrrrr}\toprule
+Forecast & $k$ & $u_H$ & $u_B$ & False claims/game & Attacks/game & Standing interventions/game \\ \midrule
+empirical & 0 & 0.250 & -- & 0.00 & 2.73 & 0.266 \\
+empirical & 1 & 0.236 & 0.293 & 2.31 & 1.98 & 0.255 \\
+empirical & 2 & 0.220 & 0.280 & 4.40 & 1.75 & 0.173 \\
+empirical & 3 & 0.251 & 0.250 & 6.29 & 1.48 & 0.122 \\
+empirical & 4 & -- & 0.250 & 7.91 & 0.96 & 0.053 \\
+opponent & 0 & 0.250 & -- & 0.00 & 2.01 & 0.172 \\
+opponent & 1 & 0.226 & 0.319 & 2.42 & 2.26 & 0.161 \\
+opponent & 2 & 0.208 & 0.292 & 4.47 & 1.37 & 0.101 \\
+opponent & 3 & 0.262 & 0.246 & 6.38 & 1.10 & 0.071 \\
+opponent & 4 & -- & 0.250 & 7.87 & 0.79 & 0.022 \\
+opponent\_action & 0 & 0.250 & -- & 0.00 & 1.88 & 0.185 \\
+opponent\_action & 1 & 0.231 & 0.307 & 2.69 & 1.61 & 0.152 \\
+opponent\_action & 2 & 0.228 & 0.272 & 4.64 & 1.40 & 0.120 \\
+opponent\_action & 3 & 0.272 & 0.243 & 6.65 & 1.12 & 0.077 \\
+opponent\_action & 4 & -- & 0.250 & 8.08 & 0.70 & 0.025 \\
+\bottomrule\end{tabular}\end{table}
+\begin{table}[htbp]\centering\scriptsize
+\caption{Cross-table-size selection endpoints at low scepticism ($\theta=0.05$). Units are percentage points; uncertainty is propagated by resampling whole game-seed clusters.}
+\label{tab:s3}
+\begin{tabular}{llrr}\toprule
+Players & Forecast & $\Delta(0)$ [95\% CI] & $\Delta(1)$ [95\% CI] \\ \midrule
+3 & empirical & +7.92 [+5.08, +10.75] & +8.58 [+6.08, +11.08] \\
+3 & opponent & +9.50 [+6.83, +12.29] & +7.50 [+5.08, +9.83] \\
+3 & opponent\_action & +7.67 [+4.92, +10.54] & +8.25 [+5.75, +10.58] \\
+5 & empirical & -0.15 [-2.33, +2.32] & +2.50 [+0.33, +4.71] \\
+5 & opponent & +0.85 [-1.42, +3.02] & +3.92 [+1.83, +5.83] \\
+5 & opponent\_action & -1.63 [-3.98, +0.47] & +5.92 [+3.83, +7.75] \\
+\bottomrule\end{tabular}\end{table}
+\begin{table}[htbp]\centering\scriptsize
+\caption{Exploratory intervention-reward sensitivity for four players, low scepticism and the opponent-aware forecast. Reward does not directly modify the agents\' fixed intervention propensity.}
+\label{tab:s4}
+\begin{tabular}{crr}\toprule
+Reward (coins) & $\Delta(0)$ [95\% CI], pp & $\Delta(0.5)$ [95\% CI], pp \\ \midrule
+0 & +7.62 [+5.00, +10.32] & +5.46 [+4.08, +6.90] \\
+1 & +6.94 [+4.42, +9.58] & +4.62 [+3.17, +6.10] \\
+2 & +6.50 [+4.00, +9.08] & +3.43 [+2.04, +4.80] \\
+\bottomrule\end{tabular}\end{table}

@@ -1,0 +1,17 @@
+{
+  "scope": "primary",
+  "games_per_profile": 1200,
+  "workers": 4,
+  "setup": "all type-seat subsets x first-player position independently counterbalanced using LCM period; common game seeds across k",
+  "seed_formula": "25M+n*1M+theta100*20k+policyindex*2k+reward*100k+j",
+  "params_honest_bluff": 0.0,
+  "params_bluffer_bluff": 0.8,
+  "shared_scepticism": true,
+  "forecast_prior": "frozen",
+  "no_human_participants": true,
+  "primary_payoff": "win probability per PLAYER of each type, not raw group win probability",
+  "analysis": "two-type Bernoulli payoff, n-player binomial-matched replicator and fixation sensitivities",
+  "revision": "pre-specified before inspecting frequency-composition outcomes",
+  "repo_parent": "7f6b57f6ab71652f4a3ce96c66c33152d5ef3bcf",
+  "fossil_coeff_file_sha256": "2c48d3d1aa68d5ad3fce77fef7fe7f09f81fa7712f20b09ced7a5696898e999c"
+}

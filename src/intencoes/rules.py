@@ -60,8 +60,8 @@ class RuleConfig:
     intervention_reward: int = 1  # A9
     swap_on_proven_claim: bool = True  # A2
     challenge_cost: int = 0  # coins a challenger pays when challenging (H3); 0 = rulebook
-    assassin_refund_on_failed_challenge: bool = False  # A4
-    max_turns: int = 400  # A1: draw beyond this
+    assassin_refund_on_failed_challenge: bool = False  # A4 confirmed: False is official; True is a counterfactual, challenge-only refund
+    max_turns: int = 400  # Numerical safety cutoff; unfinished simulations recorded as draws, not an official game rule
 
     def __post_init__(self):
         if not 3 <= self.n_players <= 5:

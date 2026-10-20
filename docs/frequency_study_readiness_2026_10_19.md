@@ -4,6 +4,8 @@
 
 ## Verification completed
 
+- **Reference rules confirmed (20 October 2026):** Victory, Observer participation and Sombra nonrefund conventions match the existing engine implementation. No payoffs or results were recomputed solely due to the documentation update.
+
 - **102,000 new games:** frequency profiles and reward sweep: 45 four-player profiles, 30 three-/five-player profiles, and 10 additional reward profiles, 1,200 games/profile; all seat/first-player scheduling bias fixed before final analysis. Earlier phase-locked pilot was rejected and excluded from every public deliverable.
 - **6,000 further games:** alternative Sombra-refund rule, 5 profiles of 1,200 games each. Compared to default qualitatively; seeds are independent, so numerical difference is not paired causal inference.
 - **198,000 preceding games:** 99,000 strict-coupling rare-mutant counterfactual simulations used for inference; another 99,000 originally noncoupled games retained only to expose the RNG-stream confound.
@@ -23,7 +25,7 @@
 ## Issues to resolve before submission
 
 - **Authors:** confirm all coauthors, precise affiliations, CRediT contributions, corresponding author and email; this draft carries an explicit placeholder. Do not attribute authorship to a generative AI.
-- **Game rules:** confirm the three flagged rules in `docs/rules_assumptions.md`: victory condition, permissible Observer participation and refund/nonrefund of failed Sombra attack cost. Refund-only sensitivity cannot establish robustness to the other two.
+- **Game rules — resolved 20 October 2026:** The project-approved reference rules specify the last active player as winner; Observers may comment but cannot act, formally challenge, block or intervene; and the Sombra three-coin cost is paid at declaration without refund after any failed attack. These are now recorded in `README.md` and `docs/rules_assumptions.md`. The 400-turn draw is a computational cutoff. The tested alternate refund covers failed action-claim challenges only; it is a counterfactual sensitivity, not a change to the official rules.
 - **Repository/data:** current source is in a private GitHub review branch. Make the full source, exact seeded simulation observations, plots and manuscript openly available with a versioned Zenodo DOI or equivalent before journal submission. Archive raw results outside of Git if needed; the ZIP contains them. No DOI exists for this study at present.
 - **Independent external validation:** no human experiment; all conclusions are within the simulator. This is acceptable for a theoretical paper only if framed as an illustrative computational game, not a behavioural finding.
 - **Calibration exception:** the action-specific blocker forecast failed 1/12 predefined held-out action calibration strata (three-player Sombra); retain this limitation and avoid declaring it fully calibrated.

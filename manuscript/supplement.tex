@@ -4,7 +4,7 @@
 \setlength{\tabcolsep}{3pt}
 \title{Supplementary methods and numerical results\\\normalsize Frequency-dependent strategic deception in a multiplayer hidden-information game}
 \author{Antonio Pereira\quad (authorship to be confirmed)}
-\date{19 October 2026}
+\date{20 October 2026}
 \begin{document}
 \maketitle
 
@@ -13,7 +13,7 @@ The purpose of the agent-based model is to determine how bluffing decisions, sce
 
 The environment contains five characters (Regente, Comerciante, Embaixador, Guardi\~ao and Sombra), three copies of each and three to five players. Each begins with two active cards and two coins; revealed influences remain publicly visible. On an active player's turn: (1) an action is chosen and its character is declared where required; (2) the first willing opponent in clockwise order may challenge that action; (3) if the action survives and is blockable, the target gets the first opportunity to block; (4) if the target declines, eligible third parties receive offers in clockwise order; (5) the first claim to block may itself be challenged; and (6) the action succeeds or fails. A standing third-party blocking claim yields one coin in the reference condition. After any challenge, the losing party reveals an influence; truthful claimants reinsert the proven card and receive a shuffled replacement. Attack and coup prices are returned to the treasury.
 
-The standard simulation terminates when one player retains at least one active influence; 400 turns without termination create a recorded draw. Observer comments do not affect play. Three rule interpretations remain unconfirmed, and a Sombra-cost refund sensitivity was run separately. The \texttt{Game.check\_invariants} tests conserve active/revealed/deck card counts and the total number of coins; stochastic games were checked against these invariants.
+The approved rule specification (confirmed 20 October 2026) awards victory to the last player with at least one active influence. An eliminated player becomes an Observer and may comment informally but cannot act, formally challenge, block or intervene. The three-coin Sombra cost is charged on declaration and is not refunded if an action fails by challenge, block or another cause. The 400-turn stopping limit and treatment of unfinished simulations as draws are a numerical safeguard rather than a physical-game rule. A separately labelled counterfactual refund experiment varies only refunds after failed Sombra action-claim challenges. The \texttt{Game.check\_invariants} tests conserve active/revealed/deck card counts and the total number of coins; stochastic games were checked against these invariants.
 
 \section*{S2. Agent behavioural rules}
 The action menu contains general income (one coin), external aid (up to two, blockable by Regente), Regente's three-coin claim, Comerciante's two-coin theft, Sombra's three-coin attack, Embaixador exchange and an unblockable seven-coin coup. A coup is compulsory on turns beginning with ten or more coins. Honest actions compete against a fallback policy that probabilistically chooses income or aid. A bluffer considers candidate actions requiring unheld cards at rate $0.8$; it selects a false claim only if its estimated gain, adjusted for challenge risk, exceeds the highest-valued honest candidate. Thus the policy can abstain from bluffing at high scepticism.
@@ -62,5 +62,5 @@ In the alternate Sombra refund rule, 1,200 games per composition were simulated 
 
 The previous action-specific blocking predictor failed one of twelve held-out calibration criteria, despite favourable average Brier scores. No new calibration was carried out in these experiments. In addition, only action-bluff propensity was compared as a strategy dimension. Other evolving traits in the larger research program, including defender intervention, defensive bluffing, scepticism and the stake bonus, were held fixed within a condition. The computed two-type dynamics consequently describe selection within a restricted strategy set and do not rule out successful invasion by an unmodelled third strategy.
 
-The original repository's Results for Experiments 2--4, developed under an earlier game valuation, remain historical and are not combined with the present payoff model. Outstanding rulebook issues, public source archival, coauthor confirmation and journal-specific editorial requirements are listed in the release audit.
+The original repository's Results for Experiments 2--4, developed under an earlier game valuation, remain historical and are not combined with the present payoff model. The confirmed rule specification, remaining public source archival tasks, coauthor confirmation and journal-specific editorial requirements are recorded in the release audit.
 \end{document}

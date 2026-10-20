@@ -1,6 +1,6 @@
 # Intenções Ocultas - Livro de Regras
 
-Neste jogo, seu objetivo é manter ou aumentar suas influências e tentar descobrir as intenções dos outros participantes. O objetivo final é continuar na mesa.
+Neste jogo, seu objetivo é manter ou aumentar suas influências e tentar descobrir as intenções dos outros participantes. O objetivo é conservar influências até ser o último jogador com pelo menos uma influência ativa.
 
 ## Conteúdo
 
@@ -21,12 +21,14 @@ Neste jogo, seu objetivo é manter ou aumentar suas influências e tentar descob
 
 As 2 cartas viradas para baixo representam suas influências e habilidades. Sempre que perder uma influência, você escolhe uma de suas cartas e a vira para cima. Cartas reveladas não fornecem mais influência. Quando você perde as duas, assume o Papel de Observador.
 
+**Condição de vitória:** Vence a partida o último jogador que permanecer com pelo menos uma influência ativa.
+
 ## O Jogo (Sequência do Turno)
 
 O jogo procede em turnos no sentido horário. No seu turno, siga os passos abaixo (não é permitido passar a vez):
 
 1. **Declarar Ação:** O jogador ativo anuncia apenas uma ação (Ex: "Sou o Regente e pego 3 moedas").
-2. **Oportunidade de Contestação:** Qualquer pessoa na mesa pode alegar que o jogador ativo está mentindo. Se houver contestação, resolva-a agora.
+2. **Oportunidade de Contestação:** Qualquer jogador com pelo menos uma influência ativa pode alegar que o jogador ativo está mentindo. Se houver contestação, resolva-a agora.
 3. **Oportunidade de Bloqueio/Intervenção:** Se não for contestada, o alvo da ação (ou um terceiro, via Intervenção) pode declarar um bloqueio.
 4. **Contestar o Bloqueio:** Qualquer jogador pode contestar a pessoa que está tentando bloquear.
 5. **Resolução:** A ação falha ou é bem-sucedida.
@@ -50,6 +52,8 @@ O jogo procede em turnos no sentido horário. No seu turno, siga os passos abaix
 | **Sombra** | Paga 3 moedas para fazer alvo perder 1 carta. | Guardião | N/A |
 | **Guardião** | N/A | N/A | Bloqueia Comerciante e Sombra. |
 | **Embaixador** | Compra 2 cartas, olha secretamente e devolve 2 para o baralho. | Inbloqueável | Bloqueia Comerciante. |
+
+**Custo da ação Sombra:** As três moedas são pagas ao declarar o ataque e não são devolvidas caso a ação seja contestada, bloqueada ou não seja concluída.
 
 ---
 
@@ -89,5 +93,5 @@ Quando um jogador for alvo de uma Cobrança ou de um Ataque, um terceiro jogador
 
 ## Outras Regras
 
-* **Papel do Observador:** Perder as duas influências não significa exclusão da mesa. O participante continua acompanhando a partida e pode dar palpites sobre blefes. O Observador **não pode** intervir.
+* **Papel do Observador:** Jogadores que perderam todas as influências podem comentar e dar palpites sobre blefes, mas não podem realizar ações, contestações formais, bloqueios ou intervenções.
 * **Tempo de Processamento:** Deve haver uma pausa segura antes da resolução das ações para que todos possam processar a informação no seu próprio tempo, sem pressa.

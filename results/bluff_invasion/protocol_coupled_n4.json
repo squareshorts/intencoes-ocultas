@@ -1,0 +1,66 @@
+{
+  "n_players": 4,
+  "theta": [
+    0.05,
+    0.3,
+    0.5
+  ],
+  "forecasts": [
+    "empirical",
+    "opponent",
+    "opponent_action"
+  ],
+  "mutant_bluff": 0.8,
+  "resident_bluff": 0.0,
+  "base": {
+    "bluff": 0.0,
+    "stake_bonus": 0.15,
+    "block_bluff": 0.0,
+    "intervene": 0.5,
+    "intervene_bluff": 0.0,
+    "foreign_aid": 0.5,
+    "bluff_target": "strategic"
+  },
+  "public_prior": {
+    "opponent_intervene": 0.5,
+    "opponent_intervene_bluff": 0.15,
+    "opponent_block_bluff": 0.4,
+    "block_prior_strength": 1.0,
+    "opponent_pool_strength": 2.0
+  },
+  "rule_config": {
+    "n_players": 4,
+    "copies_per_character": 3,
+    "influences_per_player": 2,
+    "starting_coins": 2,
+    "treasury": 54,
+    "coup_cost": 7,
+    "assassinate_cost": 3,
+    "tax_amount": 3,
+    "steal_amount": 2,
+    "foreign_aid_amount": 2,
+    "forced_coup_threshold": 10,
+    "intervention_enabled": true,
+    "intervention_reward": 1,
+    "swap_on_proven_claim": true,
+    "challenge_cost": 0,
+    "assassin_refund_on_failed_challenge": false,
+    "max_turns": 400
+  },
+  "frozen_model_sha256": "d0063222b3b196dba254f9a575c5a95310a864c4a9a71c429ec0c4859d87da96",
+  "frozen_coefficients_file_sha256": "2c48d3d1aa68d5ad3fce77fef7fe7f09f81fa7712f20b09ced7a5696898e999c",
+  "seed_start_formula": "9500000 + n_players*100000 + theta_index*20000",
+  "games_requested": 2500,
+  "primary_endpoint": "paired difference in focal win probability relative to all-honest table",
+  "secondary_endpoints": [
+    "observed action bluffs",
+    "caught bluffs",
+    "successful bluffs",
+    "attacks",
+    "third-party exposure"
+  ],
+  "ci": "95% paired game-seed bootstrap",
+  "multiplicity": "Holm adjustment across 9 comparisons at primary n=4",
+  "note": "No holdout refitting; exploratory simulation on frozen agents; unconfirmed rules unchanged",
+  "strict_coupling": true
+}

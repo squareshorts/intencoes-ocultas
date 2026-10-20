@@ -52,3 +52,7 @@ _Last updated: 2026-10-19, endogenous-policy calibration and controlled opportun
 see docs/endogenous_opportunities_2026_10_19.md._
 
 _Last updated: 2026-10-19, independent size-aware action calibration validation, strict gate 11/12 FAIL._
+
+## 2026-10-19 — rare-bluffer invasion experiment (frozen policy sensitivity)
+
+See `docs/bluff_invasion_2026_10_19.md` for all estimates, seed counts, exact Holm-adjusted tests, and limitations; reproducibility scripts are `experiments/19_bluff_invasion.py` and `experiments/20_summarise_bluff_invasion.py`. The primary strict-coupling four-player experiment found a +5.04 to +6.92 percentage-point win advantage at low scepticism across the empirical/opponent/action-specific blocking forecasts, with 2,500 paired seeds per condition. Three-player results were positive; five-player advantages were small and inconclusive. Moderate-scepticism effects were close to zero; at high scepticism no false action was selected under this heuristic. Original noncoupled results are retained separately because RNG consumption while considering a rejected bluff can confound outcomes. This is a rare-mutant win-rate sensitivity screen, not finite-population evolution or proof of invasion/fixation. The previous forecast calibration failure and unresolved rule assumptions remain open. Do not replace the original Experiments 2–4 CSVs. Next: frequency-dependent mutant composition, and separately controlled intervention reward/exposure.
